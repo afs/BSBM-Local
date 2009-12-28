@@ -1,0 +1,47 @@
+#!/bin/bash
+
+. ./init
+
+DATADIR="Data"
+[ -d "$DATADIR" ] || { echo "Not a directory: $DATADIR" ; exit 1 ; }
+
+DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
+DIRS="200m"
+DIRS="50k 250k 1m 5m"
+
+HEAP="1200M"
+if [ "$OSTYPE" = "cygwin" ]
+then
+    HEAP="6000M"
+    fi
+
+echo "Heap size: $HEAP"
+JVM_ARGS="-server -Xmx$HEAP"
+
+for d in $DIRS
+do
+  SET="$DATADIR/data-$d"
+  REPODIR="$SESAMEDB/Repo-$d"
+
+  if [ ! -e "$SET/data.nt" -a ! -e "$SET/data.nt.gz" ]
+      then
+      echo "No data for $SET"
+      continue
+      fi
+  echo "==== Load data : $SET"
+
+  rm -rf $REPODIR
+  mkdir -p $REPODIR
+
+  echo "== Load/openrdf ($d)"
+
+  if [ -e "$SET/data.nt" ] ; then 
+      echo "== Load from $SET/data.nt"
+      java $JVM_ARGS -cp "$CP" openrdf.LoadData $REPODIR < "$SET/data.nt"
+  elif [ -e "$SET/data.nt.gz" ] ; then 
+      gzip -d < "$SET/data.nt.gz" | java $JVM_ARGS -cp "$CP" openrdf.LoadData $REPODIR
+  else
+      echo "No data.nt or data.nt.gz for $SET"
+      continue
+  fi
+done

@@ -1,0 +1,147 @@
+==== Build Setup 
+
+# -sync can delete as well
+ivy -settings ivysettings.xml -ivy ivy.xml \
+    -retrieve 'lib-sys/[artifact]-[revision](-[classifier]).[ext]' \
+    -sync retrieve
+
+==== Process
+
+See run-complete for a script to drive all the scripts.
+
+genAll      (choose sizes wanted)
+loadAll     (choose sizes to load)
+runPerf     (choose sizes to test)
+
+# Note: the Java code knows the range of possible store sizes
+# If you miss 200m out, say, you get
+# "Error: XML result file names must contain size metrics e.g. store_50k.xml for res-200m.xml"
+
+# Run results and create bsbm-results.html
+genAllResults
+
+
+
+== Layout:
+
+Data/data-SIZE/...files...
+Results/res....
+
+genAll creates all the datafiles laid out like this.
+
+
+== BSBM details
+
+The original benchmark uses the web API and ...
+# Execute single-client test run (500 mixes performance measurement, randomizer seed: 808080)
+# Execute multiple-client test runs. ( 4 clients, 500 query mixes, randomizer seed: 863528)
+# Execute test run with reduced query mix. (repeat steps 2 to 4 with reduced query mix and different randomizer seed 919191)
+
+== Commands
+benchmark.generator.Generator
+benchmark.testdriver.TestDriver
+benchmark.tools.ResultTransform
+
+
+
+== Run Generator
+
+50k:  128
+250k: 666
+5m:   14088
+
+1M:     2785
+25M:    70812
+100M:   284826
+200M:   570000
+
+
+java -cp bin:lib/ssj.jar benchmark.generator.Generator -fc -pc 1000 -s ttl
+
+-s <output format>  	
+
+For the dataset there are several output formats supported. See upper table
+for details. Default: nt
+
+-pc <number of products>  	
+
+Scale factor: The dataset is scaled via the number of products. For
+example: 91 products make about 50K triples. Default: 100
+
+-fc  	
+
+The data generator by default adds rdf:type statements for all types of a
+product to the dataset. If the SUT supports RDFS reasoning, the option -fc
+can be used to exclude these statements and leave generating them to the
+inference engine of the store. Default: disabled
+
+-dir 	
+
+The output directory for all the data the Test Driver uses for its
+runs. Default: "td_data"
+
+-fn 	
+
+The file name for the generated dataset (suffix is added according to the
+output format). Default: "dataset"
+
+--------------------
+== Run tests
+java -cp bin:lib/* benchmark.testdriver.TestDriver http://localhost/sparql
+
+
+-runs <number of runs>  	
+
+The number of query mix runs. Default: 50
+
+ -idir <directory> 	
+
+The input parameter directory which was created by the Data
+Generator. Default: "td_data"
+
+ -w <number of warm up runs> 	
+
+Number of runs executed before the actual test to warm up the
+store. Default: 10
+
+-o <result XML file>  	
+
+The output file containing the aggregated result overview. Default:
+"benchmark_result.xml"
+
+-dg <default graph URI>  	
+
+Specify a default graph for the queries. Default: null
+
+-mt <number of clients> 	
+
+Benchmark with multiple concurrent clients.
+
+-seed <Long value> 	
+
+Set the seed for the random number generator used for the parameter
+generation.
+
+-t <Timeout in ms> 	
+
+If for a specific query the complete result is not read after the specified
+timeout, the client disconnects and reports a timeout to the Test
+Driver. This is also the maximum runtime a query can contribute to the
+metrics.
+
+-q 
+
+Turn on qualification mode. For more information, see the qualification chapter.
+
+-qf <qualification file name> 	
+
+Change the qualification file name, also see the qualification chapter.
+
+--------------------
+== Results
+
+java -cp bin:lib/* benchmark.tools.ResultTransform ??????
+
+Data layout:
+
+StoreName/25m.xml etc etc

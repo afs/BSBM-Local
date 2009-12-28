@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. ./init
+
+# Expected layout:
+##  StoreName/results_1m.xml (substring match to find "1m")
+
+if [ "$#" = 0 ]
+then
+    echo "No results directories given: Usage: $0 DIR" 1>&2
+    exit 1
+    fi
+
+java -cp "$CLASSPATH" -Xmx1024M -server benchmark.tools.ResultTransform "$@"

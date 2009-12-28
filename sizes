@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ROOT="Data"
+[ -d "$ROOT" ] || { echo "Not a directory: $ROOT" ; exit 1 ; }
+
+DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
+
+for d in $DIRS
+  do
+  SET="$ROOT/data-$d"
+  if [ ! -e "$SET/data.nt" -a ! -e "$SET/data.nt.gz" ]
+      then
+      echo "No data for $SET"
+      continue
+      fi
+  echo "==== $SET"
+  gzip -d < "$SET/data.nt.gz" | wc -l 
+done

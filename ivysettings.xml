@@ -1,0 +1,26 @@
+<ivysettings>
+  <!-- Resolvers for dependences -->
+  <resolvers>
+    <chain name="resolver-chain">
+
+      <ibiblio name="openrdf" 
+	       root="http://repo.aduna-software.org/maven2/releases/" 
+	       m2compatible="true"/>
+
+      <!-- neo4j -->
+      <ibiblio name="neo4j" 
+	       root="http://m2.neo4j.org"
+	       m2compatible="true"/>
+
+      <ibiblio name="maven2" m2compatible="true" />
+
+    </chain>
+  </resolvers>
+
+  <settings defaultResolver="resolver-chain"/>
+
+  <!--
+  <caches defaultCacheDir="c:/home/afs/.ivy2/cache"/>
+  -->
+
+</ivysettings>

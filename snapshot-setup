@@ -1,0 +1,4 @@
+#!/bin/bash
+# Take a copy of scripts
+
+zip -r snapshot-$(date +"%Y-%m-%d").zip genAll loadAll runPerf runResults 

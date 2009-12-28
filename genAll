@@ -1,0 +1,42 @@
+#!/bin/bash
+
+. ./init
+
+# To get the same sets as the benchmark:
+## 50k:  128
+## 250k: 666
+## 5m:   14088
+## 1M:     -fc -pc 2785
+## 25M:    -fc -pc 70812
+## 100M:   -fc -pc 284826
+## 200M:   -fc -pc 570000
+## 350M:   -fc -pc 855000
+
+
+DATADIR="Data"
+[ -d "$DATADIR" ] || { echo "Not a directory: $DATADIR" ; exit 1 ; }
+
+function generate
+{
+    local size="$1"
+    local pc="$2"
+    local DIR="$DATADIR/data-$size"
+    [ -d "$DIR" ] || { mkdir "$DIR" ; }
+
+    echo "==== Generate data for $size"
+
+    java -cp "$CLASSPATH" -Xmx1024M -server benchmark.generator.Generator \
+	-fc -pc $pc -dir $DIR -fn "$DIR/data"
+    gzip "$DIR/data.nt"
+}
+
+# rm -rf $DATADIR/data*
+
+generate 50k   128
+## generate 250k  666
+## generate 1m    2785
+## generate 5m    14088
+## generate 25m   70812
+## generate 100m  284826
+## generate 200m  570000
+## generate 350m  10000000

@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DATADIR="Data"
+[ -d "$DATADIR" ] || { echo "Not a directory: $DATADIR" ; exit 1 ; }
+
+DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
+#DIRS="200m"
+
+for d in $DIRS
+do
+  SET="$DATADIR/data-$d"
+  if [ ! -e "$SET/data.nt" -a ! -e "$SET/data.nt.gz" ]
+      then
+      echo "No data for $SET"
+      continue
+      fi
+  echo "==== Load data : $SET"
+
+  
+  DB="$JENADB/DB-$d"
+  LOC="$DB/Store"
+  rm -rf $LOC
+
+  echo "== Load ($d)"
+  if [ -e "$SET/data.nt" ] ; then 
+      echo "== Load from $SET/data.nt"
+      tdbloader --loc "$LOC" "$SET/data.nt"
+  elif [ -e "$SET/data.nt.gz" ] ; then 
+      echo "== Load from $SET/data.nt.gz"
+      gzip -d < "$SET/data.nt.gz" | tdbloader --loc "$LOC" -- -
+  else
+      echo "No data.nt or data.nt.gz for $SET"
+      continue
+  fi
+  echo "== Stats ($d)"
+  tdbstats --loc "$LOC" > stats.opt
+  mv stats.opt "$LOC"
+  echo "== Assembler ($d)"
+  sed -e "s/SIZE/$d/" assembler-template.ttl > "$SET/assembler.ttl"
+done

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+. ./init
+
+# Load and run performance suite
+
+export SIZES
+SIZES="50k 250k 1m 5m 25m 100m 200m"
+#SIZES="50k"
+RESULTS="Runs"
+
+
+# --
+BASE="${RESULTS}/"
+K="$(date +"%Y-%m-%d")"
+KEY="${BASE}$K"
+typeset -i N=0
+
+while [ -e "$KEY" ]
+  do
+  let N=N+1
+  KEY="$BASE$K.$N"
+done
+
+RUN_DIR="$KEY"
+
+echo "Results directory: $RUN_DIR"
+mkdir -p "$RUN_DIR"
+
+## The real work!
+
+cat /dev/null > "$RUN_DIR/Notes.txt"
+
+echo "Start: $(date +"%Y-%m-%d %H:%M:%S")">> "$RUN_DIR/Notes.txt"
+
+## This takes several hours, if the 100M and 200M dataset are included
+##loadAll > "$RUN_DIR/load.log"
+
+## This takes minutes although the 200M does cause some swap contention.
+runPerf > "$RUN_DIR/perf.log"
+
+mv Results "$RUN_DIR/"
+runResults "$RUN_DIR/Results"
+mv *html "$RUN_DIR/"
+# This is the important file (for me)
+cp "$RUN_DIR/bsbm_query_and_size_tables_of_stores.html" "$RUN_DIR/bsbm-results.html"
+
+echo "Finish: $(date +"%Y-%m-%d %H:%M:%S")">> "$RUN_DIR/Notes.txt"

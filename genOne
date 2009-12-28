@@ -1,0 +1,26 @@
+#!/bin/bash
+
+. ./init
+
+if [ "$#" != 1 ]
+then
+    echo "Usage $0 NUM" 1>&2 
+    exit 1 
+    fi
+
+N="$1"
+F="data-$N"
+FF="data-$N.nt"
+
+
+[ -e "$FF" ] && { echo "$FF exists" 1>&2 ; exit 1 ; }
+[ -e "$FF.gz" ] && { echo "$FF.gz exists" 1>&2 ; exit 1 ; }
+
+echo "== Start: $( date "+%Y-%m-%d %H:%M:%S")"
+
+java -cp "$CLASSPATH"  -Xmx1024M -server benchmark.generator.Generator \
+     -fc -pc  "$N" -fn "$F"
+
+echo "== Compress: $( date "+%Y-%m-%d %H:%M:%S")"
+gzip "$FF"
+echo "== Finish: $( date "+%Y-%m-%d %H:%M:%S")"

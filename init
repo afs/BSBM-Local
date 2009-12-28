@@ -1,0 +1,19 @@
+# Source this file.
+
+## $DATADIR/data-<SIZE>/
+DATADIR=Data
+
+## $JENADB/DB-<SIZE>
+## $JENADB/TDB-<SIZE>/DB-<SIZE>
+JENADB=TDB-DB
+
+## $SESAMEDB/Repo-<SIZE>
+SESAMEDB=Sesame-DB
+
+CLASSPATH='classes:build/classes:lib/*:lib-sys/*'
+
+if [ "$OSTYPE" = "cygwin" ]
+then
+    CLASSPATH="$(cygpath -w -p $CLASSPATH)"
+    fi
+#echo $CLASSPATH

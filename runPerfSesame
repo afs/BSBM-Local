@@ -1,0 +1,48 @@
+#!/bin/bash
+
+. ./init
+
+##DIRS="50k 250k 1m 5m 25m 100m 200m"
+DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
+DIRS=250k
+
+HEAP="1200M"
+if [ "$OSTYPE" != "cygwin" ]
+    then
+    HEAP="6000M"
+fi
+
+echo "== Heap: $HEAP"
+
+# TestDriver args
+# -seed 808080
+# Need more runs
+ARGS="-runs 10 -w 10"
+
+JVM_ARGS="-Xmx$HEAP -server"
+
+rm -rf Results
+mkdir Results
+
+PROGRAM=benchmark.testdriver.TestDriver
+
+for d in $DIRS
+  do
+  SET="$DATADIR/data-$d"
+  REPODIR="$SESAMEDB/Repo-$d"
+
+  if [ ! -e "$REPODIR" ]
+      then
+      echo "No database for $REPODIR"
+      continue
+  fi
+
+  echo "==== Performance run for $d"
+  echo "== Start: $(date +"%Y-%m-%d %H:%M:%S")"
+  java -cp "$CLASSPATH" $JVM_ARGS \
+      $PROGRAM \
+      $ARGS -idir "$SET" -o "Results/res-$d.xml" \
+      "sesame:$REPODIR"
+  echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
+
+done

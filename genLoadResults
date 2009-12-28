@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+
+while(<>)
+{
+    # TDB
+    if ( /==== Load data/ )
+    {
+	$triples ='' ;
+	$time = '' ;
+	$rate = '' ;
+	next ;
+    }
+
+    if ( /triples: loaded/ )
+    {
+	/([0-9,]+) triples: loaded in ([0-9.,]*) seconds \[([0-9.,]*) triples\/s\]/ ;
+	## print "$1 $2 $3\n" ;
+
+	$triples = $1 ;
+
+## 	$time = $2 ;
+## 	$rate = $3 ;
+## 	$triples =~ s/,//g ;
+## 	$rate =~ s/,//g ;
+## 	printf "%s in %ss @ %.2f\n",$triples, $time, $rate ;
+	next ;
+    }
+
+    if ( /Time for load/ )
+    {
+	/Time for load: ([0-9.]*)s \[([0-9.,]*) triples\/s\]/ ;
+	$time = $1 ;
+	$rate = $2 ;
+
+##  	$triples =~ s/,//g ;
+##  	$rate =~ s/,//g ;
+ 	printf "%-12s in %10ss  @ %s TPS\n",$triples, $time, $rate ;
+	next ;
+    }
+
+    # Sesame : does not print the sizes so do manually.
+}

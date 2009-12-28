@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function makeKey
+{
+    local BASE="${1:-Key}"
+    local K="$(date +"%Y-%m-%d")"
+    local KEY="$BASE-$K"
+    typeset -i N=0
+
+    while [ -e "$KEY" ]
+    do
+      let N=N+1
+      KEY="$BASE-$K.$N"
+    done
+    echo $KEY
+}
+
+if [ "$#" != 1 ] ; then
+    echo "Usage: $0 prefix" 1>&2 
+    exit
+    fi
+
+makeKey "$1"
+
+## X=$(makeKey)
+## touch $X
+## echo $X
+
+
+

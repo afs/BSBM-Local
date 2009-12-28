@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module version="2.0"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xmlns:mvn="http://ant.apache.org/ivy/maven"
+	    xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
+  <info module="BSBM-Direct"
+	organisation="com.talis" 
+	revision="0.0.0">
+    <license name="BSD"/>
+    <ivyauthor name="Talis Information Ltd" url="http://talis.com/"/>
+    <description>Berline SPARQL Benchmark modifed to call a store directly, not via HTTP</description>
+  </info>
+
+  <configurations defaultconfmapping="main->*">
+    <conf name="main"/>
+  </configurations>
+
+  <dependencies>
+
+    <!-- use Jena assemblers -->
+    <!--
+    <dependency org="com.hp.hpl.jena" name="arq" rev="2.8.2"/>
+    -->
+    <dependency org="com.hp.hpl.jena" name="tdb" rev="0.8.4"/>
+
+    <!-- If Neo4j - ->
+    <dependency org="org.neo4j" name="neo-rdf-sail" rev="0.5-SNAPSHOT"/>
+    <dependency org="org.openrdf.sesame" name="sesame-runtime" rev="2.1.1"/>
+    -->
+
+    <!-- If latest Sesame -->
+    <dependency org="org.openrdf.sesame" name="sesame-runtime" rev="2.3.0"/>
+    <dependency org="info.aduna.commons" name="aduna-commons-lang" rev="2.7.0"/>
+    <dependency org="info.aduna.commons" name="aduna-commons-net" rev="2.5.0"/>
+    <dependency org="info.aduna.commons" name="aduna-commons-io" rev="2.7.0"/>
+    <dependency org="info.aduna.commons" name="aduna-commons-text" rev="2.5.0"/>
+    <dependency org="info.aduna.commons" name="aduna-commons-xml" rev="2.5.0"/>
+
+  </dependencies>
+
+</ivy-module>
