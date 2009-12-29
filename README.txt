@@ -1,26 +1,32 @@
 ==== BSBM-Jena
 
-Berlin SPARQL Benchmark with additions for testing Jena local stores.
+Berlin SPARQL Benchmark with additions for testing local stores.  BSBM runs
+all the queries over the SPARQL Protocol whereas this version calls the
+stores directly, so removing protocol overhead.  For the smaller datasets
+and simpler queries, the overheads can be a significant part of the cost so
+evaluation of stores can be skewed.
 
-Adds new endpoint formats:
+BSBM-Local adds new endpoint formats as pseudo-URI schemes:
 
-* "jena:assembler" where "assembler" is the file name of a Jena assembler
+* "jena:<assembler>" where "assembler" is the file name of a Jena assembler
 description for the store.
 
-* "sesame:directory" to connect to a Seame repository.
-
+* "sesame:<directory>" to connect to a Sesame repository.
 
 == Get the system and setup
 
 git clone git://github.com/afs/BSBM-Local.git
-mkdir Data
+# Create directories.
+mkdir Data TDB-DB Sesame-DB
 mkdir src-test
+
+# The dependent jars.
+mkdir lib-sys
 
 # Get the dependent jars
 ivy -settings ivysettings.xml -ivy ivy.xml \
     -retrieve 'lib-sys/[artifact]-[revision](-[classifier]).[ext]' \
     -sync retrieve
-
 
 # Compile the system
 ant jar
@@ -60,7 +66,7 @@ runPerfSesame
 If about BSBM generaly, ask the authors, see 
 http://www4.wiwiss.fu-berlin.de/bizer/BerlinSPARQLBenchmark/
 
-If about teh Jena customization, please send questions to:
+If about the local customization, please send questions to:
 
     jena-dev@groups.yahoo.com
 
