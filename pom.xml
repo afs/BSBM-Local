@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.hp.hpl.jena</groupId>
+  <artifactId>bsbm-local</artifactId>
+  <packaging>jar</packaging>
+  <name>BSBM-Local</name>
+  <version>0.0.0-SNAPSHOT</version>
+
+  <description>BSBM running over a local store</description>
+
+  <licenses>
+    <license>
+      <name>BSD-style license</name>
+      <url>http://openjena.org/license.html</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <connection>git://github.com/afs/BSBM-Local</connection>
+    <url>http://github.com/afs/BSBM-Local</url>
+  </scm>
+
+
+  <dependencies>
+
+    <!-- Brings in all of Jena and ARQ needed at runtime + some utilities -->
+    <dependency>
+      <groupId>com.hp.hpl.jena</groupId>
+      <artifactId>tdb</artifactId>
+      <version>0.8.4</version>
+    </dependency>
+
+    <!-- Jena and ARQ - no testing support -->
+
+    <dependency>
+      <groupId>com.hp.hpl.jena</groupId>
+      <artifactId>jena</artifactId>
+      <version>2.6.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.hp.hpl.jena</groupId>
+      <artifactId>arq</artifactId>
+      <version>2.8.2</version>
+    </dependency>
+
+    <!-- OpenRDF Sesame -->
+
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-runtime</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
+    <!-- Maven does not pull this in from sesame-runtime (but ivy does) -->
+    <dependency>
+      <groupId>org.openrdf.sesame</groupId>
+      <artifactId>sesame-sail-nativerdf</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+    
+    <!-- Logging -->
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.5.8</version>
+    </dependency>
+
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>[1.2.12,)</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>src-test</testSourceDirectory>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+	<configuration>
+	  <!--<compilerArgument>-verbose</compilerArgument>-->
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+ <repositories>
+
+    <!-- jena-repo is mirrored to Maven central repository -->
+    <!-- In case mirroring has not happened yet ... -->
+    <repository>
+      <id>repo-jena</id>
+      <name>Jena Maven - Repository</name>
+      <layout>default</layout>
+      <url>http://openjena.org/repo</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <!-- jena-repo-dev is where SNAPSHOTs and RCs are published -->  
+    <!--
+    <repository>
+      <id>repo-jena-dev</id>
+      <name>Jena Maven - Development Repository</name>
+      <layout>default</layout>
+      <url>http://openjena.org/repo-dev</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    -->
+
+    <repository>
+      <id>repo-openrdf</id>
+      <name>OpenRDF releases</name>
+      <layout>default</layout>
+      <url>http://repo.aduna-software.org/maven2/releases</url>
+    </repository>
+
+  </repositories>
+
+  <distributionManagement>
+    <downloadUrl>http://openjena.org/repo-dev</downloadUrl>
+
+    <repository>
+      <id>jena-repo</id>
+      <name>Jena repo</name>
+
+      <!--<url>sftp://openjena.org/var/repo</url>-->
+
+      <!-- Because RC's aren't snapshots IMHO -->
+      <url>sftp://openjena.org/var/repo-dev</url>
+
+      <!--<url>file:tmp</url>-->
+      <layout>default</layout>
+    </repository> 
+
+    <snapshotRepository>
+      <id>jena-repo-dev</id>
+      <name>Jena development repo</name>
+      <url>sftp://openjena.org/var/repo-dev</url>
+      <!--<url>file:tmp</url>-->
+      <layout>default</layout>
+    </snapshotRepository>
+
+  </distributionManagement>
+
+</project>
