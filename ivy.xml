@@ -18,11 +18,7 @@
 
   <dependencies>
 
-    <!-- use Jena assemblers -->
-    <!--
-    <dependency org="com.hp.hpl.jena" name="arq" rev="2.8.2"/>
-    -->
-    <dependency org="com.hp.hpl.jena" name="tdb" rev="0.8.4"/>
+    <dependency org="com.hp.hpl.jena" name="tdb" rev="latest.integration"/>
 
     <!-- If Neo4j - ->
     <dependency org="org.neo4j" name="neo-rdf-sail" rev="0.5-SNAPSHOT"/>
