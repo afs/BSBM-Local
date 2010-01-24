@@ -6,7 +6,6 @@
 
 ##DIRS="50k 250k 1m 5m 25m 100m 200m"
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
-DIRS=50k
 
 ##rm -rf Results/*
 
@@ -24,7 +23,6 @@ ARGS="-runs 10 -w 10"
 ## **** RunBSBM.java has  
 ## ????TDB_ARGS="-Dtdb:logExec=true" 
 
-PROGRAM=benchmark.testdriver.TestDriver
 PROGRAM=benchmark.testdriver.TestDriver
 ## ----
 
