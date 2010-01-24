@@ -88,8 +88,8 @@ public class TestDriver {
 			{
 			    if ( sparqlEndpoint.startsWith("jena:") )
 			        server = new LocalConnectionJena(sparqlEndpoint, defaultGraph, timeout);
-	             if ( sparqlEndpoint.startsWith("sesame:") )
-	                    server = new LocalConnectionSesame(sparqlEndpoint, defaultGraph, timeout);
+			    else if ( sparqlEndpoint.startsWith("sesame:") )
+			        server = new LocalConnectionSesame(sparqlEndpoint, defaultGraph, timeout);
 			    else
 			        server = new SPARQLConnection(sparqlEndpoint, defaultGraph, timeout);
 			}
