@@ -11,8 +11,8 @@ import java.io.IOException ;
 import java.io.InputStream ;
 import java.util.zip.GZIPInputStream ;
 
-import atlas.lib.FileOps ;
-import atlas.lib.StrUtils ;
+import org.openjena.atlas.lib.FileOps ;
+import org.openjena.atlas.lib.StrUtils ;
 
 public class test
 {
@@ -41,7 +41,7 @@ public class test
             argv = a ;
         }
         
-        System.out.println(StrUtils.join(" ", argv)) ;
+        System.out.println(StrUtils.strjoin(" ", argv)) ;
         
         benchmark.testdriver.TestDriver.main(argv) ;
     }

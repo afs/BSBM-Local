@@ -6,7 +6,7 @@
 
 package dev;
 
-import atlas.lib.StrUtils ;
+import org.openjena.atlas.lib.StrUtils ;
 
 import com.hp.hpl.jena.tdb.TDB ;
 import com.hp.hpl.jena.tdb.solver.Explain ;
@@ -35,7 +35,7 @@ public class RunBSBM
             args = a ;
         }
         
-        System.out.println(StrUtils.join(" ", args)) ;
+        System.out.println(StrUtils.strjoin(" ", args)) ;
         
         benchmark.testdriver.TestDriver.main(args) ;
     }
