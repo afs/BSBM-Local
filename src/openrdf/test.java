@@ -18,12 +18,12 @@ public class test
 {
     static { System.setProperty("log4j.configuration", "file:log4j.properties") ; }
     
-    public static void main(String... argv) throws IOException
+    public static void main(String... argv) 
     {
         query(argv) ;
     }
     
-    public static void query(String... argv) throws IOException
+    public static void query(String... argv)
     {
         if ( argv.length == 0 )
         {

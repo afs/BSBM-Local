@@ -78,7 +78,8 @@ public class XMLSerializer implements Serializer {
 	}
 	
 	
-	public void gatherData(ObjectBundle bundle) {
+	@Override
+    public void gatherData(ObjectBundle bundle) {
 		Iterator<BSBMResource> it = bundle.iterator();
 
 		String publisherType = getPublisherTypeString(bundle);
@@ -552,7 +553,8 @@ public class XMLSerializer implements Serializer {
 		return sb.toString();
 	}
 
-	public void serialize() {
+	@Override
+    public void serialize() {
 		//Close files
 		try {
 			writeFooterData();
@@ -564,7 +566,8 @@ public class XMLSerializer implements Serializer {
 		}
 	}
 
-	public Long triplesGenerated() {
+	@Override
+    public Long triplesGenerated() {
 		return nrTriples;
 	}
 

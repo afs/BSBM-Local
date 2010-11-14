@@ -31,7 +31,8 @@ public class SPARQLConnection implements ServerConnection{
 	/*
 	 * Execute Query with Query Object
 	 */
-	public void executeQuery(Query query, byte queryType) {
+	@Override
+    public void executeQuery(Query query, byte queryType) {
 		executeQuery(query.getQueryString(), queryType, query.getNr(), query.getQueryMix());
 	}
 	
@@ -79,7 +80,8 @@ public class SPARQLConnection implements ServerConnection{
 		qe.close();
 	}
 	
-	public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
+	@Override
+    public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
 		double timeInSeconds;
 
 		String queryString = query.getQueryString();
@@ -211,7 +213,8 @@ private int countBytes(InputStream is) {
 		}
 	}
 	
-	public void close() {
+	@Override
+    public void close() {
 		//nothing to close
 	}
 
@@ -220,7 +223,8 @@ private int countBytes(InputStream is) {
 	 * @see benchmark.testdriver.ServerConnection#executeValidation(benchmark.testdriver.Query, byte, java.lang.String[])
 	 * Gather information about the result a query returns.
 	 */
-	public QueryResult executeValidation(Query query, byte queryType) {
+	@Override
+    public QueryResult executeValidation(Query query, byte queryType) {
 		String queryString = query.getQueryString();
 		int queryNr = query.getNr();
 		String[] rowNames = query.getRowNames();

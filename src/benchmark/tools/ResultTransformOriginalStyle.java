@@ -278,7 +278,8 @@ public class ResultTransformOriginalStyle {
 	}
 
 	private static class FileFilter1 implements FilenameFilter {
-	    public boolean accept(File dir, String name) {
+	    @Override
+        public boolean accept(File dir, String name) {
 	        return name.endsWith(".xml");
 	    }
 	}
@@ -376,7 +377,8 @@ public class ResultTransformOriginalStyle {
 	}
 
 	private static class StringLengthComparator1 implements Comparator<String> {
-	    public int compare(String s1, String s2) {
+	    @Override
+        public int compare(String s1, String s2) {
 	        if(s1.length() == s2.length())
 	            return 0;
 	        else if(s1.length()>s2.length())

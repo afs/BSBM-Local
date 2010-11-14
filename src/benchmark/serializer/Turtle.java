@@ -72,7 +72,8 @@ public class Turtle implements Serializer {
 	}
 	
 
-	public void gatherData(ObjectBundle bundle) {
+	@Override
+    public void gatherData(ObjectBundle bundle) {
 		Iterator<BSBMResource> it = bundle.iterator();
 
 		try {
@@ -742,7 +743,8 @@ public class Turtle implements Serializer {
 	
 	
 
-	public void serialize() {
+	@Override
+    public void serialize() {
 		//Close files
 		try {
 			dataFileWriter.flush();
@@ -768,7 +770,8 @@ public class Turtle implements Serializer {
 		}
 	}
 
-	public Long triplesGenerated() {
+	@Override
+    public Long triplesGenerated() {
 		return nrTriples;
 	}
 	
