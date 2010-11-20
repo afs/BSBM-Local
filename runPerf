@@ -37,7 +37,7 @@ do
 
   if [ ! -e "$DB/Store" ]
       then
-      echo "No database for "
+      echo "No database for $DB/Store"
       continue
       fi
   echo "==== Performance run for $d"
