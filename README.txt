@@ -22,17 +22,10 @@ mkdir src-test
 
 # The dependent jars.
 mkdir lib-sys
+mvn dependency:resolve -DoutputDirectory=lib-sys
 
-# Get the dependent jars
-ivy -settings ivysettings.xml -ivy ivy.xml \
-    -retrieve 'lib-sys/[artifact]-[revision](-[classifier]).[ext]' \
-    -sync retrieve
-
-# Compile the system
-ant jar
-
-Either use Eclipse (the project setup is included) or use "ant jar" which
-places the jar in build/.
+Either use Eclipse (the project setup is included) or use "mvn compile" which
+places the jar in target/classes
 
 ==  Directories
 
@@ -69,4 +62,3 @@ http://www4.wiwiss.fu-berlin.de/bizer/BerlinSPARQLBenchmark/
 If about the local customization, please send questions to:
 
     jena-dev@groups.yahoo.com
-
