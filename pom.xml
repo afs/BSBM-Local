@@ -27,7 +27,7 @@
     <this.root>${project.artifactId}-${project.version}</this.root>
     <ver.jena>2.6.3</ver.jena>
     <ver.arq>2.8.6</ver.arq>
-    <ver.tdb>0.8.7</ver.tdb>
+    <ver.tdb>0.8.8-SNAPSHOT</ver.tdb>
   </properties>
 
   <dependencies>
