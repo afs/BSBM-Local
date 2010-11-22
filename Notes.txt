@@ -10,14 +10,21 @@ ivy -settings ivysettings.xml -ivy ivy.xml \
 See run-complete for a script to drive all the scripts.
 
 genAll      (choose sizes wanted)
-loadAll     (choose sizes to load)
-runPerf     (choose sizes to test)
+SIZES="50k 250k" loadAll     (choose sizes to load)
+SIZES="50k 250k" runPerf     (choose sizes to test)
+runResults
+
+Also:
+
+DATE=[date 2010-MM-DD]
+mkdir Runs/$DATE
+mv Results/* Runs/$DATE
 
 # Note: the Java code knows the range of possible store sizes
 # If you miss 200m out, say, you get
 # "Error: XML result file names must contain size metrics e.g. store_50k.xml for res-200m.xml"
 
-# Run results and create bsbm-results.html
+# Run results and create bsbm-results.html in the Runs/DATE/ directories:
 genAllResults
 
 

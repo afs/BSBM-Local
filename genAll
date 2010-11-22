@@ -33,7 +33,7 @@ function generate
 # rm -rf $DATADIR/data*
 
 generate 50k   128
-## generate 250k  666
+generate 250k  666
 ## generate 1m    2785
 ## generate 5m    14088
 ## generate 25m   70812
