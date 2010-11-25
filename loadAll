@@ -4,6 +4,7 @@
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 #DIRS="200m"
+LOADER=tdbloader2
 
 for d in $DIRS
 do
@@ -22,14 +23,15 @@ do
       fi
   LOC="$DB/Store"
   rm -rf $LOC
+  mkdir -p "$LOC"
 
   echo "== Load ($d)"
   if [ -e "$SET/data.nt" ] ; then 
       echo "== Load from $SET/data.nt"
-      tdbloader --loc "$LOC" "$SET/data.nt"
+      $LOADER --loc "$LOC" "$SET/data.nt"
   elif [ -e "$SET/data.nt.gz" ] ; then 
       echo "== Load from $SET/data.nt.gz"
-      gzip -d < "$SET/data.nt.gz" | tdbloader --loc "$LOC" -- -
+      $LOADER --loc "$LOC" "$SET/data.nt.gz"
   else
       echo "No data.nt or data.nt.gz for $SET"
       continue

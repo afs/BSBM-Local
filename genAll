@@ -27,6 +27,7 @@ function generate
 
     java -cp "$CLASSPATH" -Xmx1024M -server benchmark.generator.Generator \
 	-fc -pc $pc -dir $DIR -fn "$DIR/data"
+    echo "---- gzip: $size"
     gzip "$DIR/data.nt"
 }
 

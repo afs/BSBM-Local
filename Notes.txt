@@ -1,5 +1,8 @@
 ==== Build Setup 
 
+mvn dependency:copy-dependencies -DoutputDirectory=lib-sys
+
+
 # -sync can delete as well
 ivy -settings ivysettings.xml -ivy ivy.xml \
     -retrieve 'lib-sys/[artifact]-[revision](-[classifier]).[ext]' \
@@ -8,6 +11,10 @@ ivy -settings ivysettings.xml -ivy ivy.xml \
 ==== Process
 
 See run-complete for a script to drive all the scripts.
+
+mkdir Data
+mkdir TDB-DB
+mkdir Sesame-DB
 
 genAll      (choose sizes wanted)
 SIZES="50k 250k" loadAll     (choose sizes to load)

@@ -108,18 +108,15 @@
       </snapshots>
     </repository>
 
-    <!-- jena-repo-dev is where SNAPSHOTs and RCs are published -->  
-    <!--
     <repository>
       <id>repo-jena-dev</id>
-      <name>Jena Maven - Development Repository</name>
+      <name>Jena Maven - Repository</name>
       <layout>default</layout>
       <url>http://openjena.org/repo-dev</url>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
     </repository>
-    -->
 
     <repository>
       <id>repo-openrdf</id>
@@ -136,13 +133,7 @@
     <repository>
       <id>jena-repo</id>
       <name>Jena repo</name>
-
-      <!--<url>sftp://openjena.org/var/repo</url>-->
-
-      <!-- Because RC's aren't snapshots IMHO -->
-      <url>sftp://openjena.org/var/repo-dev</url>
-
-      <!--<url>file:tmp</url>-->
+      <url>sftp://openjena.org/var/repo</url>
       <layout>default</layout>
     </repository> 
 
@@ -150,7 +141,6 @@
       <id>jena-repo-dev</id>
       <name>Jena development repo</name>
       <url>sftp://openjena.org/var/repo-dev</url>
-      <!--<url>file:tmp</url>-->
       <layout>default</layout>
     </snapshotRepository>
 
