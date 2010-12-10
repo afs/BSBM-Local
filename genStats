@@ -17,9 +17,12 @@ do
       continue 
   fi
 
-  echo "== Stats ($d)"
-  tdbstats --loc "$LOC" > stats.opt
-  mv stats.opt "$LOC"
+  if [ -e "$LOC/stats.opt" ]
+  then
+      echo "== Stats ($d)"
+      tdbstats --loc "$LOC" > stats.opt
+      mv stats.opt "$LOC"
+  fi
 
   echo "== Assembler ($d)"
   sed -e "s/SIZE/$d/" assembler-template.ttl > "$SET/assembler.ttl"
