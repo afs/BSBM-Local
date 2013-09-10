@@ -38,7 +38,8 @@ public class SQLConnection implements ServerConnection {
 	/*
 	 * Execute Query with Query Object
 	 */
-	public void executeQuery(Query query, byte queryType) {
+	@Override
+    public void executeQuery(Query query, byte queryType) {
 		executeQuery(query.getQueryString(), queryType, query.getNr(), query.getQueryMix());
 	}
 	
@@ -84,7 +85,8 @@ public class SQLConnection implements ServerConnection {
 	 * Execute Query with precompiled Query
 	 * @see benchmark.testdriver.ServerConnection#executeQuery(benchmark.testdriver.CompiledQuery, benchmark.testdriver.CompiledQueryMix)
 	 */
-	public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
+	@Override
+    public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
 		double timeInSeconds;
 		String queryString = query.getQueryString();
 		byte queryType = query.getQueryType();
@@ -144,7 +146,8 @@ public class SQLConnection implements ServerConnection {
 		logger.log(Level.ALL, sb.toString());
 	}
 	
-	public void close() {
+	@Override
+    public void close() {
 		try {
 		conn.close();
 		} catch(SQLException e) {
@@ -153,7 +156,8 @@ public class SQLConnection implements ServerConnection {
 		}
 	}
 
-	public QueryResult executeValidation(Query query, byte queryType) {
+	@Override
+    public QueryResult executeValidation(Query query, byte queryType) {
 		// TODO Auto-generated method stub
 		return null;
 	}

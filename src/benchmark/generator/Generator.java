@@ -823,7 +823,7 @@ public class Generator {
 			bundle.add(v);
 			
 			//Get number of offers for this Vendor
-			Integer offerCountVendor = vendorOfOffer.get(vendorNr) - vendorOfOffer.get(vendorNr-1);;
+			Integer offerCountVendor = vendorOfOffer.get(vendorNr) - vendorOfOffer.get(vendorNr-1);
 	
 			createOffersOfVendor(bundle, vendorNr, offerNr, offerCountVendor, valueGen, offerSeedGen);
 			

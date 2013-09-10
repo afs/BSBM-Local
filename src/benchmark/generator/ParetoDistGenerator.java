@@ -15,7 +15,7 @@ public class ParetoDistGenerator {
 	public int getValue()
 	{
 		int i;
-		for(i=(int)pareto.inverseF(Math.random());i>max;i=(int)pareto.inverseF(Math.random()));
+		for(i=(int)pareto.inverseF(Math.random());i>max;i=(int)pareto.inverseF(Math.random())) {}
 		return i;
 	}
 }

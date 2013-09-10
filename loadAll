@@ -1,7 +1,6 @@
 #!/bin/bash
 
-CLASSPATH='lib/*'
-DATADIR=Data
+. ./init
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 #DIRS="5m"

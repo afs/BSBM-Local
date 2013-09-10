@@ -144,9 +144,7 @@ public class TestDriver {
 	private List<String> getUseCaseQuerymixes() {
 		List<String> files = new ArrayList<String>();
 
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(
-					usecaseFile));
+		try ( BufferedReader reader = new BufferedReader(new FileReader( usecaseFile)) ) {
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				String[] querymixInfo = line.split("=");
@@ -159,7 +157,6 @@ public class TestDriver {
 				if (querymixInfo[0].toLowerCase().equals("querymix"))
 					files.add(querymixInfo[1]);
 			}
-
 		} catch (IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(-1);

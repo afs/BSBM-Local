@@ -77,7 +77,8 @@ public class TriG implements Serializer {
 	}
 	
 
-	public void gatherData(ObjectBundle bundle) {
+	@Override
+    public void gatherData(ObjectBundle bundle) {
 		Iterator<BSBMResource> it = bundle.iterator();
 
 		//Write Graph and provenance data
@@ -678,7 +679,8 @@ public class TriG implements Serializer {
 	
 	
 
-	public void serialize() {
+	@Override
+    public void serialize() {
 		//Write provenance data file end and close files
 		try {
 			provenanceGraphWriter.append("}\n");
@@ -714,7 +716,8 @@ public class TriG implements Serializer {
 		}
 	}
 
-	public Long triplesGenerated() {
+	@Override
+    public Long triplesGenerated() {
 		return nrTriples;
 	}
 }

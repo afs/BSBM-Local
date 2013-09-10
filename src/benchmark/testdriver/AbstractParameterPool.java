@@ -117,15 +117,14 @@ public abstract class AbstractParameterPool {
 
 	private File readProductProducerData(File resourceDir) {
 		File pp = new File(resourceDir, "pp.dat");
-		ObjectInputStream productProducerInput;
-		try {
-			productProducerInput = new ObjectInputStream(new FileInputStream(pp));
-			producerOfProduct = (Integer[]) productProducerInput.readObject();
-			scalefactor = producerOfProduct[producerOfProduct.length-1];
-		} catch(IOException e) {
-			System.err.println("Could not open or process file " + pp.getAbsolutePath());
-			System.err.println(e.getMessage());
-			System.exit(-1);
+        try (ObjectInputStream productProducerInput = new ObjectInputStream(new FileInputStream(pp))) {
+            producerOfProduct = (Integer[])productProducerInput.readObject() ;
+            productProducerInput.close() ;
+            scalefactor = producerOfProduct[producerOfProduct.length - 1] ;
+        } catch (IOException e) {
+            System.err.println("Could not open or process file " + pp.getAbsolutePath()) ;
+            System.err.println(e.getMessage()) ;
+            System.exit(-1) ;
 		}
 		catch(ClassNotFoundException e) { System.err.println(e); }
 		return pp;
