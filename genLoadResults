@@ -37,6 +37,4 @@ while(<>)
  	printf "%-12s in %10ss  @ %s TPS\n",$triples, $time, $rate ;
 	next ;
     }
-
-    # Sesame : does not print the sizes so do manually.
 }

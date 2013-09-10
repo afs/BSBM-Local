@@ -1,20 +1,9 @@
-==== Build Setup 
-
-mvn dependency:copy-dependencies -DoutputDirectory=lib-sys
-
-
-# -sync can delete as well
-ivy -settings ivysettings.xml -ivy ivy.xml \
-    -retrieve 'lib-sys/[artifact]-[revision](-[classifier]).[ext]' \
-    -sync retrieve
-
 ==== Process
 
 See run-complete for a script to drive all the scripts.
 
 mkdir Data
 mkdir TDB-DB
-mkdir Sesame-DB
 
 genAll      (choose sizes wanted)
 SIZES="50k 250k" loadAll     (choose sizes to load)
@@ -35,14 +24,12 @@ mv Results/* Runs/$DATE
 genAllResults
 
 
-
 == Layout:
 
 Data/data-SIZE/...files...
 Results/res....
 
 genAll creates all the datafiles laid out like this.
-
 
 == BSBM details
 
@@ -55,7 +42,6 @@ The original benchmark uses the web API and ...
 benchmark.generator.Generator
 benchmark.testdriver.TestDriver
 benchmark.tools.ResultTransform
-
 
 == Generate
 
