@@ -25,7 +25,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.List;
@@ -119,14 +118,21 @@ public class TestDriver {
 						resourceDir), seed, new File(updateFile));
 		}
 		System.out.println("done");
-
+		
 		if (sparqlEndpoint != null && !multithreading) {
-			if (doSQL)
-				server = new SQLConnection(sparqlEndpoint, timeout,
-						driverClassName);
-			else
-				server = new SPARQLConnection(sparqlEndpoint,
-						sparqlUpdateEndpoint, defaultGraph, timeout);
+		    if (doSQL)
+		        server = new SQLConnection(sparqlEndpoint, timeout,
+		                                   driverClassName);
+		    else {
+		        if ( sparqlEndpoint.startsWith("jena:") )
+		            server = new LocalConnectionJena(sparqlEndpoint, sparqlUpdateEndpoint, defaultGraph, timeout);
+		        else if ( sparqlEndpoint.startsWith("sesame:") )
+		            //server = new LocalConnectionSesame(sparqlEndpoint, defaultGraph, timeout);
+		            throw new UnsupportedOperationException("sesame: URLs not supported") ;
+		        else
+		            server = new SPARQLConnection(sparqlEndpoint,
+		                                          sparqlUpdateEndpoint, defaultGraph, timeout);
+		    }
 		} else if (multithreading) {
 			// do nothing
 		} else {

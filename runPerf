@@ -36,7 +36,7 @@ do
   java -cp "$CLASSPATH" $JVM_ARGS \
       $PROGRAM \
       $ARGS -idir "$SET" -o "Results/res-$d.xml" \
-      "http://localhost:3030/ds/sparql"
-#      "jena:$DB/assembler.ttl"
+      "jena:$DB/assembler.ttl"
+      #"http://localhost:3030/ds/sparql"
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done
