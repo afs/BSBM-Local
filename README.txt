@@ -11,27 +11,18 @@ BSBM-Local adds new endpoint formats as pseudo-URI schemes:
 * "jena:<assembler>" where "assembler" is the file name of a Jena assembler
 description for the store.
 
-* "sesame:<directory>" to connect to a Sesame repository.
-
 == Get the system and setup
 
 git clone git://github.com/afs/BSBM-Local.git
+mvn package
+
 # Create directories.
-mkdir Data TDB-DB Sesame-DB
-mkdir src-test
-
-# The dependent jars.
-mkdir lib-sys
-mvn dependency:resolve -DoutputDirectory=lib-sys
-
-Either use Eclipse (the project setup is included) or use "mvn compile" which
-places the jar in target/classes
+mkdir Data TDB-DB
 
 ==  Directories
 
 Data/data-SIZE          -- generated data
 TDB-DB/DB-SIZE/         -- TDB 
-Sesame-DB/Repo-SIZE     -- Sesame
 
 == Process - for TDB backed stores.
 
@@ -49,11 +40,6 @@ runPerf
 # NB The BSBM formatter knows the possible store sizes 
 runResults Results 
 
-== Process - Sesame
-
-loadSesame	
-runPerfSesame
-
 == Questions?
 
 If about BSBM generaly, ask the authors, see 
@@ -61,4 +47,8 @@ http://www4.wiwiss.fu-berlin.de/bizer/BerlinSPARQLBenchmark/
 
 If about the local customization, please send questions to:
 
-    jena-dev@groups.yahoo.com
+    users@jena.apache.org
+
+(subscribe to the list before sending)
+
+
