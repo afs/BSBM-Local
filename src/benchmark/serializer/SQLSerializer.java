@@ -38,8 +38,7 @@ public class SQLSerializer implements Serializer {
 		initTables();
 	}
 	
-	@Override
-    public void gatherData(ObjectBundle bundle) {
+	public void gatherData(ObjectBundle bundle) {
 		Iterator<BSBMResource> it = bundle.iterator();
 	
 		try {
@@ -231,7 +230,7 @@ public class SQLSerializer implements Serializer {
 				StringBuffer valuesPTP = getBuffer(tables.productTypeProductInsertCounter++, "producttypeproduct");
 				
 				valuesPTP.append("(" + product.getNr() + ",");
-				valuesPTP.append(new Integer(pt.getNr()).toString());
+				valuesPTP.append(Integer.valueOf(pt.getNr()).toString());
 				valuesPTP.append(")");
 				
 				if(tables.productTypeProductInsertCounter>=insertNumber) {
@@ -247,7 +246,7 @@ public class SQLSerializer implements Serializer {
 			StringBuffer valuesPTP = getBuffer(tables.productTypeProductInsertCounter++, "producttypeproduct");
 			
 			valuesPTP.append("(" + product.getNr() + ",");
-			valuesPTP.append(new Integer(product.getProductType().getNr()).toString());
+			valuesPTP.append(Integer.valueOf(product.getProductType().getNr()).toString());
 			valuesPTP.append(")");
 			
 			if(tables.productTypeProductInsertCounter>=insertNumber) {
@@ -301,7 +300,7 @@ public class SQLSerializer implements Serializer {
 		}
 		
 		//dc:publisher
-		values.append(new Integer(product.getProducer()).toString());
+		values.append(Integer.valueOf(product.getProducer()).toString());
 		values.append(",");
 			
 		//dc:date
@@ -577,8 +576,7 @@ public class SQLSerializer implements Serializer {
 		tables.reviewDump.append(values);
 	}
 	
-	@Override
-    public void serialize() {
+	public void serialize() {
 		//Finish files and close
 		try {
 			tables.productTypeDump.append(tables.endTable(tables.productTypeInsertCounter, "producttype"));
@@ -627,8 +625,7 @@ public class SQLSerializer implements Serializer {
 		}
 	}
 
-	@Override
-    public Long triplesGenerated() {
+	public Long triplesGenerated() {
 		return nrTriples;
 	}
 

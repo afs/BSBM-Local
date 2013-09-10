@@ -9,20 +9,29 @@ import benchmark.generator.*;
 import java.io.*;
 
 public class Turtle implements Serializer {
-	private FileWriter dataFileWriter;
-	private File dataFile;
-	private FileWriter prefixFileWriter;
+	private FileWriter[] dataFileWriter;
 	private boolean forwardChaining;
 	private long nrTriples;
+	private boolean haveToGeneratePrefixes = true;
+	int currentWriter = 0;
 	
 	public Turtle(String file, boolean forwardChaining)
 	{
+		this(file, forwardChaining, 1);
+	}
+	
+	public Turtle(String file, boolean forwardChaining, int nrOfOutputFiles)
+	{
+		int nrOfDigits = ((int)Math.log10(nrOfOutputFiles)) + 1;
+		String formatString = "%0" + nrOfDigits + "d";
 		try{
-			this.prefixFileWriter = new FileWriter(file);
-			
-			this.dataFile = File.createTempFile("BSBM", ".data");
-			this.dataFile.deleteOnExit();
-			this.dataFileWriter = new FileWriter(dataFile);
+			dataFileWriter = new FileWriter[nrOfOutputFiles];
+			if(nrOfOutputFiles==1)
+				this.dataFileWriter[0] = new FileWriter(file + ".ttl");
+			else
+				for(int i=1;i<=nrOfOutputFiles;i++)
+					dataFileWriter[i-1] = new FileWriter(file + String.format(formatString, i) + ".ttl");
+				
 		} catch(IOException e){
 			System.err.println("Could not open File for writing.");
 			System.err.println(e.getMessage());
@@ -30,7 +39,8 @@ public class Turtle implements Serializer {
 		}
 		
 		try {
-			prefixFileWriter.append(getNamespaces());
+			for(int i=0;i<nrOfOutputFiles;i++)
+				dataFileWriter[i].append(getNamespaces());
 		} catch(IOException e) {
 			System.err.println(e.getMessage());
 		}
@@ -71,46 +81,77 @@ public class Turtle implements Serializer {
 		return result.toString();
 	}
 	
-
-	@Override
-    public void gatherData(ObjectBundle bundle) {
+	private void generatePrefixes() {
+		StringBuilder sb = new StringBuilder();
+		for(int i=1; i< Generator.producerOfProduct.size(); i++) {
+			sb.append("@prefix dataFromProducer");
+			sb.append(i);
+			sb.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer");
+			sb.append(i);
+			sb.append("/> .\n");
+		}
+		for(int i=1; i< Generator.vendorOfOffer.size(); i++) {
+			sb.append("@prefix dataFromVendor");
+			sb.append(i);
+			sb.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor");
+			sb.append(i);
+			sb.append("/> .\n");
+		}
+		for(int i=1; i< Generator.ratingsiteOfReview.size(); i++) {
+			sb.append("@prefix dataFromRatingSite");
+			sb.append(i);
+			sb.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite");
+			sb.append(i);
+			sb.append("/> .\n");
+		}
+		sb.append("\n");
+		try {
+			String tempString = sb.toString();
+			for(int i=0;i<dataFileWriter.length;i++)
+				dataFileWriter[i].append(tempString);
+		} catch(IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public void gatherData(ObjectBundle bundle) {
+		if(haveToGeneratePrefixes) {
+			generatePrefixes();
+			haveToGeneratePrefixes = false;
+		}
 		Iterator<BSBMResource> it = bundle.iterator();
 
 		try {
-			String prefix = getPrefixDefinition(bundle);
-			if(prefix!=null)
-				prefixFileWriter.append(prefix);
-			
 			while(it.hasNext())
 			{
 				BSBMResource obj = it.next();
 	
 				if(obj instanceof ProductType){
-					dataFileWriter.append(convertProductType((ProductType)obj));
+					dataFileWriter[currentWriter].append(convertProductType((ProductType)obj));
 				}
 				else if(obj instanceof Offer){
-					dataFileWriter.append(convertOffer((Offer)obj));
+					dataFileWriter[currentWriter].append(convertOffer((Offer)obj));
 				}
 				else if(obj instanceof Product){
-					dataFileWriter.append(convertProduct((Product)obj));
+					dataFileWriter[currentWriter].append(convertProduct((Product)obj));
 				}
 				else if(obj instanceof Person){
-					dataFileWriter.append(convertPerson((Person)obj, bundle));
+					dataFileWriter[currentWriter].append(convertPerson((Person)obj, bundle));
 				}
 				else if(obj instanceof Producer){
-					dataFileWriter.append(convertProducer((Producer)obj));
+					dataFileWriter[currentWriter].append(convertProducer((Producer)obj));
 				}
 				else if(obj instanceof ProductFeature){
-					dataFileWriter.append(convertProductFeature((ProductFeature)obj));
+					dataFileWriter[currentWriter].append(convertProductFeature((ProductFeature)obj));
 				}
 				else if(obj instanceof Vendor){
-					dataFileWriter.append(convertVendor((Vendor)obj));
+					dataFileWriter[currentWriter].append(convertVendor((Vendor)obj));
 				}
 				else if(obj instanceof Review){
-					dataFileWriter.append(convertReview((Review)obj, bundle));
+					dataFileWriter[currentWriter].append(convertReview((Review)obj, bundle));
 				}
+				currentWriter = (currentWriter + 1) % dataFileWriter.length;
 			}
-			
 		}catch(IOException e){
 			System.err.println("Could not write into File!");
 			System.err.println(e.getMessage());
@@ -118,40 +159,6 @@ public class Turtle implements Serializer {
 		}
 	}
 	
-	/*
-	 * Generate Prefix-String
-	 */
-	private String getPrefixDefinition(ObjectBundle bundle) {
-		StringBuffer prefix = new StringBuffer();
-		prefix.append("@prefix ");
-		String publisher = bundle.getPublisher().toLowerCase();
-		
-		if(publisher.contains("datafromvendor")) {
-			prefix.append("dataFromVendor");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append("/> .\n");
-		}
-		else if(publisher.contains("datafromratingsite")) {
-			prefix.append("dataFromRatingSite");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append("/> .\n");
-		}
-		else if(publisher.contains("datafromproducer")) {
-			prefix.append("dataFromProducer");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append(": <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer");
-			prefix.append(bundle.getPublisherNum());
-			prefix.append("/> .\n");
-		}
-		else
-			return null;
-		
-		return prefix.toString();
-	}
 
 	/*
 	 * Converts the ProductType Object into an TriG String
@@ -743,35 +750,20 @@ public class Turtle implements Serializer {
 	
 	
 
-	@Override
-    public void serialize() {
+	public void serialize() {
 		//Close files
 		try {
-			dataFileWriter.flush();
-			dataFileWriter.close();
-			
-			prefixFileWriter.append("\n");
-			
-			FileReader data = new FileReader(dataFile);
-			char[] buf = new char[100];
-			int len = 0;
-			while((len=data.read(buf))!=-1) {
-				prefixFileWriter.write(buf, 0, len);
+			for(int i=0;i<dataFileWriter.length;i++) {
+				dataFileWriter[i].flush();
+				dataFileWriter[i].close();
 			}
-			
-			prefixFileWriter.flush();
-			prefixFileWriter.close();
-			data.close();
-			
-			dataFile.delete();
 		} catch(IOException e) {
 			System.err.println(e.getMessage());
 			System.exit(-1);
 		}
 	}
 
-	@Override
-    public Long triplesGenerated() {
+	public Long triplesGenerated() {
 		return nrTriples;
 	}
 	
@@ -783,11 +775,15 @@ public class Turtle implements Serializer {
 		
 		@Override
         public void run() {
-			try {
-			serializer.dataFileWriter.flush();
-			serializer.dataFileWriter.close();
-			} catch(IOException e) {}
-			serializer.dataFile.delete();
+			
+			for(int i=0;i<dataFileWriter.length;i++) {
+				try {
+					serializer.dataFileWriter[i].flush();
+					serializer.dataFileWriter[i].close();
+				} catch(IOException e) {
+					// Do nothing
+				}
+			}
 		}
 	}
 }

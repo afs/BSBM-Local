@@ -78,8 +78,7 @@ public class XMLSerializer implements Serializer {
 	}
 	
 	
-	@Override
-    public void gatherData(ObjectBundle bundle) {
+	public void gatherData(ObjectBundle bundle) {
 		Iterator<BSBMResource> it = bundle.iterator();
 
 		String publisherType = getPublisherTypeString(bundle);
@@ -184,7 +183,7 @@ public class XMLSerializer implements Serializer {
 				
 		
 		//bsbm:vendor
-		result.append(leafTag(4, "vendor", new Integer(offer.getVendor()).toString()));
+		result.append(leafTag(4, "vendor", Integer.valueOf(offer.getVendor()).toString()));
 		
 		//bsbm:price
 		result.append(leafTag(4, "price", offer.getPriceString()));
@@ -208,7 +207,7 @@ public class XMLSerializer implements Serializer {
 		result.append(leafTag(4, "offerWebpage", offer.getOfferWebpage()));
 		
 		//dc:publisher
-		result.append(leafTag(4, "publisher", new Integer(offer.getVendor()).toString()));
+		result.append(leafTag(4, "publisher", Integer.valueOf(offer.getVendor()).toString()));
 		
 		//dc:date
 		GregorianCalendar date = new GregorianCalendar();
@@ -553,8 +552,7 @@ public class XMLSerializer implements Serializer {
 		return sb.toString();
 	}
 
-	@Override
-    public void serialize() {
+	public void serialize() {
 		//Close files
 		try {
 			writeFooterData();
@@ -566,8 +564,7 @@ public class XMLSerializer implements Serializer {
 		}
 	}
 
-	@Override
-    public Long triplesGenerated() {
+	public Long triplesGenerated() {
 		return nrTriples;
 	}
 

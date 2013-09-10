@@ -1,10 +1,16 @@
 #!/bin/bash
 
-. ./init
+CLASSPATH='lib/*'
+DATADIR=Data
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
-#DIRS="200m"
-LOADER=tdbloader2
+#DIRS="5m"
+
+#LOADER=tdbloader2
+LOADER=tdbloader
+
+JENADB=TDB-DB
+[ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
 for d in $DIRS
 do
@@ -36,7 +42,7 @@ do
       echo "No data.nt or data.nt.gz for $SET"
       continue
   fi
-  if [ -e "$LOC/stats.opt" ]
+  if [ ! -e "$LOC/stats.opt" ]
   then
       echo "== Stats ($d)"
       tdbstats --loc "$LOC" > stats.opt

@@ -29,6 +29,12 @@ public class PreCalcParameterPool {
 			int i=0;
 			while(queryMix.hasNext()) {
 				Query next = queryMix.getNext();
+				//Don't create queries for the warm-up phase
+				if(nrRun < warmups && next.getQueryType()==Query.UPDATE_TYPE) {
+					queryMixes[nrRun][i++] = null;
+					queryMix.setCurrent(0, -1.0);
+					continue;
+				}
 				Object[] queryParameters = parameterPool.getParametersForQuery(next);
 				next.setParameters(queryParameters);
 				

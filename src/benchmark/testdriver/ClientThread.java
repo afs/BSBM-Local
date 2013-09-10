@@ -68,7 +68,7 @@ public class ClientThread extends Thread {
 				Long startTime = System.nanoTime();
 				while(queryMix.hasNext()) {
 					CompiledQuery next = queryMix.getNext();
-					if(manager.ignoreQueries[next.getNr()-1])
+					if(next==null || manager.ignoreQueries[next.getNr()-1])
 						queryMix.setCurrent(0, -1.0);
 					else {
 						conn.executeQuery(next,queryMix);

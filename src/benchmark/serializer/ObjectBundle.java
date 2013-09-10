@@ -107,4 +107,13 @@ public class ObjectBundle {
 	public void setPublisherNum(int publisherNum) {
 		this.publisherNum = publisherNum;
 	}
+	
+	public boolean writeStringToSerializer(String s) {
+		if(serializer instanceof NTriples) {
+			((NTriples)serializer).writeString(s);
+			return true;
+		}
+		else
+			return false;
+	}
 }

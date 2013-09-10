@@ -20,13 +20,12 @@ public class ResultTransform {
 	static String[][] storesSizes;
 	static String[][] dimensionArrays;
 	
-	private final static String[] queries = 
-	  { "Query 1", "Query 2", "Query 3", "Query 4",
-	    "Query 5", "Query 6", "Query 7", "Query 8",
-	    "Query 9", "Query 10", "Query 11", "Query 12"};
-	private static final String[] sizes = { "50k", "250k", "1m", "5m", "25m", "100m", "200m", "350m"} ;
-
+	private final static String[] queries = { "Query 1", "Query 2", "Query 3", "Query 4",
+		 								"Query 5", "Query 6", "Query 7", "Query 8",
+		 								"Query 9", "Query 10", "Query 11", "Query 12"};
+	private static final String[] sizes = { "100m", "200m" };
 	private static final String queryLink = "http://www4.wiwiss.fu-berlin.de/bizer/BerlinSPARQLBenchmark/spec/index.html#queryTripleQ"; 
+//	private static final String[] sizes = { "25M", "100M" };
 	private static HashMap<String, Integer> sizeMap = new HashMap<String, Integer>();
 	static String tabledef = "<table style=\"text-align: center; width: 60%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">";
 	static String queryParameter = "qps";
@@ -35,10 +34,6 @@ public class ResultTransform {
 	static boolean american = true;//switch . and ,
 	
 	public static void main(String argv[]) {
-	    // Usage: DIR... containing the results files.
-	    // Determine sizes available.
-	    // -----
-	    
 		String[] storeNames = new String[argv.length];
 		File[] storeDirs = new File[argv.length];
 		for(int i=0; i<sizes.length;i++)
@@ -272,8 +267,7 @@ public class ResultTransform {
 	
 	private static void create_store_query_of_sizes_table(String[] sizes) throws IOException{
 		for(int i=0;i<sizes.length;i++) {
-		    if ( sizes[i] != null )
-		        store_query_of_size.append(createHtmlTable(sizes[i], 0, 2, 1, i, false));
+			store_query_of_size.append(createHtmlTable(sizes[i], 0, 2, 1, i, false));
 		}
 	}
 	
@@ -293,8 +287,7 @@ public class ResultTransform {
 }
 
 class FileFilter implements FilenameFilter {
-	@Override
-    public boolean accept(File dir, String name) {
+	public boolean accept(File dir, String name) {
 		return name.endsWith(".xml");
 	}
 }
@@ -319,7 +312,7 @@ class IntReference {
 	
 	@Override
     public String toString() {
-		return (new Integer(value)).toString();
+		return (Integer.valueOf(value)).toString();
 	}
 }
 
@@ -361,18 +354,18 @@ class ResultHandler extends DefaultHandler {
             int start,
             int length) {
 		if(inQueryAttr) {
-			String t = "";
+			StringBuilder t = new StringBuilder();
 		    for ( int i = start; i < (start + length); i++ )
-		      t += ch[i];
+		      t.append(ch[i]);
 
-		    resultArray[index++] = t;
+		    resultArray[index++] = t.toString();
 		}
 		else if(inQMAttr) {
-			String t = "";
+			StringBuilder t = new StringBuilder();
 		    for ( int i = start; i < (start + length); i++ )
-		      t += ch[i];
+		      t.append(ch[i]);
 
-		    qmValue = t;
+		    qmValue = t.toString();
 		}
 	}
 	
@@ -391,9 +384,10 @@ class ResultHandler extends DefaultHandler {
 	}
 }
 
-class StringLengthComparator implements Comparator<String> {
-	@Override
-    public int compare(String s1, String s2) {
+class StringLengthComparator implements Comparator<String>, Serializable{
+	private static final long serialVersionUID = -5232659752583741930L;
+
+	public int compare(String s1, String s2) {
 		if(s1.length() == s2.length())
 			return 0;
 		else if(s1.length()>s2.length())

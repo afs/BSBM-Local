@@ -17,13 +17,21 @@ import org.apache.log4j.Level;
 import benchmark.qualification.QueryResult;
 
 public class SPARQLConnection implements ServerConnection{
-	private String serverURL;
+	private String serviceURL;
+	private String updateServiceURL;
 	private String defaultGraph;
 	private static Logger logger = Logger.getLogger( SPARQLConnection.class );
 	private int timeout;
 	
 	public SPARQLConnection(String serviceURL, String defaultGraph, int timeout) {
-		this.serverURL = serviceURL;
+		this.serviceURL = serviceURL;
+		this.defaultGraph = defaultGraph;
+		this.timeout = timeout;
+	}
+	
+	public SPARQLConnection(String serviceURL, String updateServiceURL, String defaultGraph, int timeout) {
+		this.updateServiceURL = updateServiceURL;
+		this.serviceURL = serviceURL;
 		this.defaultGraph = defaultGraph;
 		this.timeout = timeout;
 	}
@@ -31,8 +39,7 @@ public class SPARQLConnection implements ServerConnection{
 	/*
 	 * Execute Query with Query Object
 	 */
-	@Override
-    public void executeQuery(Query query, byte queryType) {
+	public void executeQuery(Query query, byte queryType) {
 		executeQuery(query.getQueryString(), queryType, query.getNr(), query.getQueryMix());
 	}
 	
@@ -42,7 +49,11 @@ public class SPARQLConnection implements ServerConnection{
 	private void executeQuery(String queryString, byte queryType, int queryNr, QueryMix queryMix) {
 		double timeInSeconds;
 
-		NetQuery qe = new NetQuery(serverURL, queryString, queryType, defaultGraph, timeout);
+		NetQuery qe;
+		if(queryType==Query.UPDATE_TYPE)
+			qe = new NetQuery(updateServiceURL, queryString, queryType, defaultGraph, timeout);
+		else
+			qe = new NetQuery(serviceURL, queryString, queryType, defaultGraph, timeout);
 		int queryMixRun = queryMix.getRun() + 1;
 
 		InputStream is = qe.exec();
@@ -80,15 +91,18 @@ public class SPARQLConnection implements ServerConnection{
 		qe.close();
 	}
 	
-	@Override
-    public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
+	public void executeQuery(CompiledQuery query, CompiledQueryMix queryMix) {
 		double timeInSeconds;
 
 		String queryString = query.getQueryString();
 		byte queryType = query.getQueryType();
 		int queryNr = query.getNr();
 		
-		NetQuery qe = new NetQuery(serverURL, queryString, queryType, defaultGraph, timeout);
+		NetQuery qe;
+		if(query.getQueryType()==Query.UPDATE_TYPE)
+			qe = new NetQuery(updateServiceURL, queryString, queryType, defaultGraph, timeout);
+		else
+			qe = new NetQuery(serviceURL, queryString, queryType, defaultGraph, timeout);
 
 		int queryMixRun = queryMix.getRun() + 1;
 
@@ -192,7 +206,7 @@ private int countBytes(InputStream is) {
 		return count;
 	}
 	
-	private class ResultHandler extends DefaultHandler {
+	private static class ResultHandler extends DefaultHandler {
 		private int count;
 		
 		ResultHandler() {
@@ -213,8 +227,7 @@ private int countBytes(InputStream is) {
 		}
 	}
 	
-	@Override
-    public void close() {
+	public void close() {
 		//nothing to close
 	}
 
@@ -223,23 +236,31 @@ private int countBytes(InputStream is) {
 	 * @see benchmark.testdriver.ServerConnection#executeValidation(benchmark.testdriver.Query, byte, java.lang.String[])
 	 * Gather information about the result a query returns.
 	 */
-	@Override
-    public QueryResult executeValidation(Query query, byte queryType) {
+	public QueryResult executeValidation(Query query, byte queryType) {
 		String queryString = query.getQueryString();
 		int queryNr = query.getNr();
 		String[] rowNames = query.getRowNames();
 		boolean sorted = queryString.toLowerCase().contains("order by");
 		QueryResult queryResult = null;
 
-		NetQuery qe = new NetQuery(serverURL, queryString, queryType, defaultGraph, 0);
+		NetQuery qe;
+		if(queryType==Query.UPDATE_TYPE)
+			qe = new NetQuery(updateServiceURL, queryString, queryType, defaultGraph, 0);
+		else
+			qe = new NetQuery(serviceURL, queryString, queryType, defaultGraph, 0);
 
 		InputStream is = qe.exec();
-		Document doc = getXMLDocument(is);
-		XMLOutputter outputter = new XMLOutputter();
-		logResultInfo(query, outputter.outputString(doc));
 		
-		if(queryType==Query.SELECT_TYPE)
-			queryResult = gatherResultInfoForSelectQuery(queryString, queryNr, sorted, doc, rowNames);
+		if(queryType!=Query.UPDATE_TYPE) {
+			Document doc = getXMLDocument(is);
+			XMLOutputter outputter = new XMLOutputter();
+			logResultInfo(query, outputter.outputString(doc));
+		
+			if(queryType==Query.SELECT_TYPE)
+				queryResult = gatherResultInfoForSelectQuery(queryString, queryNr, sorted, doc, rowNames);
+		}
+		else
+			logResultInfo(query, "");
 		
 		if(queryResult!=null)
 			queryResult.setRun(query.getQueryMix().getRun());
@@ -301,7 +322,7 @@ private int countBytes(InputStream is) {
 		it = resultChildren.iterator();
 		while(it.hasNext()) {
 			Element resultElement = it.next();
-			String result = "";
+			StringBuilder result = new StringBuilder();
 			
 			//get the row values and paste it together to one String
 			for(int i=0;i<rows.length;i++) {
@@ -311,14 +332,14 @@ private int countBytes(InputStream is) {
 				for(int j=0;j<bindings.size();j++) {
 					Element binding = bindings.get(j);
 					if(binding.getAttributeValue("name").equals(rowName))
-						if(result.equals(""))
-							result += rowName + ": " + ((Element)binding.getChildren().get(0)).getTextNormalize();
+						if(result.length()==0)
+							result.append(rowName + ": " + ((Element)binding.getChildren().get(0)).getTextNormalize());
 						else
-							result += "\n" + rowName + ": " + ((Element)binding.getChildren().get(0)).getTextNormalize();
+							result.append("\n" + rowName + ": " + ((Element)binding.getChildren().get(0)).getTextNormalize());
 				}
 			}
 			
-			queryResult.addResult(result);
+			queryResult.addResult(result.toString());
 		}
 		return queryResult;
 	}

@@ -57,6 +57,20 @@ benchmark.testdriver.TestDriver
 benchmark.tools.ResultTransform
 
 
+== Generate
+
+mkdir Data
+# Alter sizes
+genAll 
+
+== Query
+
+
+SIZES="50k 250k" loadAll     (choose sizes to load)
+SIZES="50k 250k" runPerf     (choose sizes to test)
+
+-----------------------------------
+
 
 == Run Generator
 

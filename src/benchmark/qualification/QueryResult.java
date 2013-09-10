@@ -95,11 +95,11 @@ public class QueryResult implements Serializable{
 		String error=null;
 		int missing=0;
 		int tooMany=0;
-		Set<String> keys = otherMap.keySet();
-		Iterator<String> it = keys.iterator();
+		Set<Map.Entry<String, Integer>> keys = otherMap.entrySet();
+		Iterator<Map.Entry<String, Integer>> it = keys.iterator();
 		
 		while(it.hasNext()) {
-			String key = it.next();
+			String key = it.next().getKey();
 			Integer countO = otherMap.get(key);
 			
 			if(resultHash.containsKey(key)) {

@@ -6,6 +6,7 @@ import java.util.*;
 
 import benchmark.vocabulary.BSBM;
 
+@SuppressWarnings("serial")
 public class ProductType extends BSBMResource implements Serializable{
 	private int nr;
 	private String label;
@@ -92,6 +93,16 @@ public class ProductType extends BSBMResource implements Serializable{
 		s.append(BSBM.INST_PREFIX);
 		s.append("ProductType");
 		s.append(nr);
+		return s.toString();
+	}
+	
+	public static String getURIRef(int productTypeNr) {
+		StringBuilder s = new StringBuilder();
+		s.append("<");
+		s.append(BSBM.INST_NS);
+		s.append("ProductType");
+		s.append(productTypeNr);
+		s.append(">");
 		return s.toString();
 	}
 }

@@ -4,16 +4,17 @@
 DATADIR=Data
 [ -d "$DATADIR" ] || { echo "Not a directory: $DATADIR" ; exit 1 ; }
 
-## $JENADB/DB-<SIZE>
-## $JENADB/TDB-<SIZE>/DB-<SIZE>
+## ## $JENADB/DB-<SIZE>
+## ## $JENADB/TDB-<SIZE>/DB-<SIZE>
 JENADB=TDB-DB
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
-## $SESAMEDB/Repo-<SIZE>
-SESAMEDB=Sesame-DB
-[ -d "$SESAMEDB" ] || { echo "Not a directory: $SESAMEDB" ; exit 1 ; }
+## ## $SESAMEDB/Repo-<SIZE>
+## SESAMEDB=Sesame-DB
+## [ -d "$SESAMEDB" ] || { echo "Not a directory: $SESAMEDB" ; exit 1 ; }
 
-CLASSPATH='classes:build/classes:lib/*:lib-sys/*'
+#CLASSPATH='classes:build/classes:lib/*:lib-sys/*'
+CLASSPATH='lib/*'
 
 if [ "$OSTYPE" = "cygwin" ]
 then

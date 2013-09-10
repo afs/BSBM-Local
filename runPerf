@@ -34,8 +34,9 @@ do
   echo "==== Performance run for $d"
   echo "== Start: $(date +"%Y-%m-%d %H:%M:%S")"
   java -cp "$CLASSPATH" $JVM_ARGS \
-       $PROGRAM \
-       $ARGS -idir "$SET" -o "Results/res-$d.xml" \
-      "jena:$DB/assembler.ttl"
+      $PROGRAM \
+      $ARGS -idir "$SET" -o "Results/res-$d.xml" \
+      "http://localhost:3030/ds/sparql"
+#      "jena:$DB/assembler.ttl"
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<!--
-log4j:WARN Continuable parsing error 36 and column 23
-log4j:WARN The content of element type "log4j:configuration" must match "(renderer*,appender*,(category|logger)*,root?,categoryFactory?)".
--->
+
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
   <appender name="TheAppender" class="org.apache.log4j.FileAppender">
@@ -11,36 +8,13 @@ log4j:WARN The content of element type "log4j:configuration" must match "(render
     <param name="Append" value="false" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern"
-             value="== %d{HH:mm:ss.SSS} %-5p %c: %m%n%n" />
+             value="%d{ISO8601} %-5p [%t] %c: %m%n" />
     </layout>
   </appender>
 
-  <!--
-  <appender name="TheAppender" class="org.apache.log4j.ConsoleAppender">
-    <layout class="org.apache.log4j.PatternLayout">
-      <param name="ConversionPattern"
-	     value="%d{ISO8601} %-5p [%t] %c: %m%n" />
-    </layout>
-  </appender>
-  -->
-
-  <logger name="com.hp.hpl.jena">
-    <level value="WARN"/>
-  </logger>
-
-  <logger name="com.hp.hpl.jena.tdb.exec">
-    <level value="INFO"/>
-    <!--<appender-ref ref="A1" />-->
-  </logger>
-
-  <logger name="com.hp.hpl.jena.tdb.info">
-    <level value="INFO"/>
-    <!--<appender-ref ref="A1" />-->
-  </logger>
-  
   <root>
-    <priority value="WARN" />
+    <priority value="ALL" />
     <appender-ref ref="TheAppender" />
   </root>
-  
+
 </log4j:configuration>

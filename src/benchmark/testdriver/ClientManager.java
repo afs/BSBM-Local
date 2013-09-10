@@ -33,8 +33,12 @@ public class ClientManager {
 			ServerConnection sConn;
 			if(parent.doSQL)
 				sConn = new SQLConnection(parent.sparqlEndpoint, parent.timeout, parent.driverClassName);
-			else
-				sConn = new SPARQLConnection(parent.sparqlEndpoint, parent.defaultGraph, parent.timeout);
+			else {
+				if(parent.sparqlUpdateEndpoint==null)
+					sConn = new SPARQLConnection(parent.sparqlEndpoint, parent.defaultGraph, parent.timeout);
+				else
+					sConn = new SPARQLConnection(parent.sparqlEndpoint, parent.sparqlUpdateEndpoint, parent.defaultGraph, parent.timeout);
+			}
 				
 			clients[i] = new ClientThread(pool, sConn, ignoreQueries.length, this, i+1);
 		}

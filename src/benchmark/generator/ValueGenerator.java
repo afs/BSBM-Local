@@ -64,7 +64,7 @@ public class ValueGenerator {
 		MessageDigest md=null;
 		try{
 			md = MessageDigest.getInstance("SHA1");
-		} catch(java.security.NoSuchAlgorithmException e) {}
+		} catch(java.security.NoSuchAlgorithmException e) { System.err.println(e.getMessage()); System.exit(-1);}
 		
 		byte[] chksum = md.digest(b);
 		StringBuffer result=new StringBuffer();
