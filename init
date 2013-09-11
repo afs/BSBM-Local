@@ -1,15 +1,11 @@
 # Source this file.
 
-. ./cp
 SIZES=
 
 if [ -z "$SIZES" -a -e "db-sizes" ]
 then
     SIZES="$(cat db-sizes)"
 fi
-
-
-
 
 ## $DATADIR/data-<SIZE>/
 DATADIR=Data
@@ -18,4 +14,4 @@ DATADIR=Data
 JENADB=TDB-DB
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
-. ./cp
+. ./run_classpath

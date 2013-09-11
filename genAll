@@ -30,10 +30,10 @@ function generate
 # rm -rf $DATADIR/data*
 
 generate 50k   128
-## generate 250k  666
-## generate 1m    2785
-## generate 5m    14092
-## generate 25m   70812
-## generate 100m  284826
-## generate 200m  570000
-## generate 350m  10000000
+generate 250k  666
+generate 1m    2785
+generate 5m    14092
+generate 25m   70812
+generate 100m  284826
+generate 200m  570000
+generate 350m  10000000
