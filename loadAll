@@ -1,9 +1,9 @@
 #!/bin/bash
 
+# This sets SIZES
 . ./init
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
-#DIRS="5m"
 
 #LOADER=tdbloader2
 LOADER=tdbloader
@@ -27,13 +27,16 @@ do
       mkdir -p "$DB"
       fi
   LOC="$DB/Store"
-  rm -rf $LOC
-  mkdir -p "$LOC"
 
   if [ -e "$LOC" ]
   then
-      echo "** already $LOC exists al
+      echo "** already exists : $LOC"
+      continue
   fi
+
+  rm -rf $LOC
+  mkdir -p "$LOC"
+
 
   echo "== Load ($d)"
   if [ -e "$SET/data.nt" ] ; then 

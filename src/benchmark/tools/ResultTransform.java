@@ -23,7 +23,7 @@ public class ResultTransform {
 	private final static String[] queries = { "Query 1", "Query 2", "Query 3", "Query 4",
 		 								"Query 5", "Query 6", "Query 7", "Query 8",
 		 								"Query 9", "Query 10", "Query 11", "Query 12"};
-	private static final String[] sizes = { "100m", "200m" };
+	private static final String[] sizes = { "50k", "250k", "1m", "5m", "25m", "100m", "200m", "350m" };
 	private static final String queryLink = "http://www4.wiwiss.fu-berlin.de/bizer/BerlinSPARQLBenchmark/spec/index.html#queryTripleQ"; 
 //	private static final String[] sizes = { "25M", "100M" };
 	private static HashMap<String, Integer> sizeMap = new HashMap<String, Integer>();
