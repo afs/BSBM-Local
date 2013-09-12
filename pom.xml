@@ -41,7 +41,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
   <properties>
     <this.root>${project.artifactId}-${project.version}</this.root>
-    <ver.jena>2.11.0-SNAPSHOT</ver.jena>
+    <ver.jena>2.11.1-SNAPSHOT</ver.jena>
   </properties>
 
   <dependencies>

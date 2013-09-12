@@ -30,6 +30,11 @@ do
   rm -rf $LOC
   mkdir -p "$LOC"
 
+  if [ -e "$LOC" ]
+  then
+      echo "** already $LOC exists al
+  fi
+
   echo "== Load ($d)"
   if [ -e "$SET/data.nt" ] ; then 
       echo "== Load from $SET/data.nt"

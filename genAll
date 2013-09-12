@@ -17,6 +17,15 @@ function generate
     local size="$1"
     local pc="$2"
     local DIR="$DATADIR/data-$size"
+
+    echo "// $DIR" 
+
+    if [ -e "$DIR" ]
+    then
+	echo "**** Already exists: $DIR/data"
+	return
+    fi
+
     [ -d "$DIR" ] || { mkdir "$DIR" ; }
 
     echo "==== Generate data for $size"
@@ -36,4 +45,4 @@ generate 5m    14092
 generate 25m   70812
 generate 100m  284826
 generate 200m  570000
-generate 350m  10000000
+## generate 350m  10000000

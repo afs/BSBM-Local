@@ -4,7 +4,7 @@ SIZES=
 
 if [ -z "$SIZES" -a -e "db-sizes" ]
 then
-    SIZES="$(cat db-sizes)"
+    source ./db-sizes
 fi
 
 ## $DATADIR/data-<SIZE>/
