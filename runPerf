@@ -40,3 +40,7 @@ do
       #"http://localhost:3030/ds/sparql"
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done
+
+runResults Results
+mv bsbm_query_and_size_tables_of_stores.html Results/bsbm-query-results.html
+rm -f *html

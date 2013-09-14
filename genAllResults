@@ -14,7 +14,7 @@ for X in Runs/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]
   runResults "$RUN_DIR/Results"
   mv *html "$RUN_DIR/"
 
-  # This is the import file (for me)
+  # This is the important file (for me)
   cp "$RUN_DIR/bsbm_query_and_size_tables_of_stores.html" "$RUN_DIR/bsbm-query-results.html"
 
   # The load figures.

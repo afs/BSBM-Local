@@ -8,15 +8,22 @@ mkdir TDB-DB
 genAll      (choose sizes wanted)
 SIZES="50k 250k" loadAll     (choose sizes to load)
 SIZES="50k 250k" runPerf     (choose sizes to test)
-genAllResults
-
+# generate results 
 runResults
+Key results file:
+bsbm_query_and_size_tables_of_stores.html
+--> bsbm-query-results.html
+
+Or:
+Colelction of dated runs under Runs/
+  genAllResults
 
 Also:
 
 DATE=[date 2010-MM-DD]
 mkdir Runs/$DATE
 mv Results/* Runs/$DATE
+
 
 # Note: the Java code knows the range of possible store sizes
 # If you miss 200m out, say, you get
