@@ -7,3 +7,5 @@ CLASSPATH="$CP1:$CP2"
 unset REPO
 unset CP1
 unset CP2
+
+CLASSPATH="$HOME/Projects/quack/classes:$CLASSPATH"

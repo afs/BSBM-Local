@@ -5,6 +5,7 @@ classes
 Runs/
 Data/*
 TDB-DB/*
+TDB-DB-all
 Sesame-DB/*
 lib-sys/*
 Results/*

@@ -31,12 +31,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.apache.jena.atlas.lib.FileOps ;
+import org.apache.jena.atlas.logging.Log ;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.Level;
+import org.apache.log4j.PropertyConfigurator ;
 
 import java.io.*;
 import java.util.StringTokenizer;
+
+import com.hp.hpl.jena.util.FileUtils ;
 
 import benchmark.qualification.QueryResult;
 
@@ -1124,7 +1129,10 @@ public class TestDriver {
 	}
 
 	public static void main(String argv[]) {
-		DOMConfigurator.configureAndWatch("log4j.xml", 60 * 1000);
+	    if ( FileOps.exists("log4j.properties") )
+	        PropertyConfigurator.configureAndWatch("log4j.properties", 60*1000);
+	    else
+	        DOMConfigurator.configureAndWatch("log4j.xml", 60 * 1000);
 		TestDriver testDriver = new TestDriver(argv);
 		testDriver.init();
 		System.out.println("\nStarting test...\n");

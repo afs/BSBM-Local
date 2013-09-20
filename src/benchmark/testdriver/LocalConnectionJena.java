@@ -91,7 +91,8 @@ public class LocalConnectionJena implements ServerConnection
             resultCount = executeQuery1(queryString, dataset) ;
         } catch (Throwable th)
         {
-            System.err.println("Throwable: "+th.getMessage()) ;
+            th.printStackTrace(System.err) ;
+            //System.err.println("Throwable: "+th.getMessage()) ;
             long timeMilli = timer.readTimer() ;
             System.out.println("Query " + queryNr + ": " + (timeMilli/1000.0) + " seconds timeout!");
             queryMix.reportTimeOut();//inc. timeout counter
