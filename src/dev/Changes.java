@@ -18,18 +18,12 @@
 
 package dev;
 
-import benchmark.testdriver.TestDriver ;
-
-public class RunPerf {
-    public static void main(String argv[]) {
-        String set = "1m" ;
-        TestDriver.main(
-                        //"-runs", "2", "-w", "2",
-                        "-runs", "1", "-w", "0",
-                        "-idir", "Data/data-"+set, "-o", "Results/res-"+set+".xml",
-                        "jena:TDB-DB/DB-"+set+"/assembler.ttl") ;
-        //#"http://localhost:3030/ds/sparql"
-        
-        benchmark.tools.ResultTransform.main("Results");
-    }
+public class Changes {
+    /*
+     * ResultTransform : stores processed, table produced.
+     * 
+     * Add jena:
+     * Adapter to store sizes present.
+     * 
+     */
 }
