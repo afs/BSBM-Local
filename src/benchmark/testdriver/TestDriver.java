@@ -1110,7 +1110,7 @@ public class TestDriver {
 		}
 	}
 
-	public static void main(String argv[]) {
+	public static void main(String ...argv) {
 	    if ( FileOps.exists("log4j.properties") )
 	        PropertyConfigurator.configureAndWatch("log4j.properties", 60*1000);
 	    else
