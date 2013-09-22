@@ -17,33 +17,15 @@
 
 package benchmark.testdriver;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.io.* ;
+import java.util.* ;
 
 import org.apache.jena.atlas.lib.FileOps ;
-import org.apache.jena.atlas.logging.Log ;
-import org.apache.log4j.xml.DOMConfigurator;
-import org.apache.log4j.Logger;
-import org.apache.log4j.Level;
+import org.apache.log4j.Level ;
+import org.apache.log4j.Logger ;
 import org.apache.log4j.PropertyConfigurator ;
-
-import java.io.*;
-import java.util.StringTokenizer;
-
-import com.hp.hpl.jena.util.FileUtils ;
-
-import benchmark.qualification.QueryResult;
+import org.apache.log4j.xml.DOMConfigurator ;
+import benchmark.qualification.QueryResult ;
 
 public class TestDriver {
 	protected QueryMix queryMix;// The Benchmark Querymix
