@@ -41,6 +41,4 @@ do
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done
 
-runResults Results
-mv bsbm_query_and_size_tables_of_stores.html Results/bsbm-query-results.html
-rm -f bsbm*html
+runResults Results/res*xml > Results/results-$(date date '+%Y-%m-%dT%H:%M:%S').html
