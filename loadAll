@@ -47,8 +47,8 @@ then
 # Load
 for d in $DIRS
 do
-  echo "==== Load data : $SET"
   SET="$DATADIR/data-$d"
+  echo "==== Load data : $SET"
   DB="$JENADB/DB-$d"
   LOC="$DB/Store"
   rm -rf $LOC
