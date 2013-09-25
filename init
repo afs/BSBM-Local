@@ -1,7 +1,5 @@
 # Source this file.
 
-SIZES=
-
 if [ -z "$SIZES" -a -e "db-sizes" ]
 then
     source ./db-sizes
