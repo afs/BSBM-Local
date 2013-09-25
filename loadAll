@@ -5,23 +5,26 @@
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 
+echo "== Loading: $DIRS"
+
+
 #LOADER=tdbloader2
 LOADER=tdbloader
 
 JENADB=TDB-DB
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
+# Check
+OK='yes'
 for d in $DIRS
 do
   SET="$DATADIR/data-$d"
   if [ ! -e "$SET/data.nt" -a ! -e "$SET/data.nt.gz" ]
       then
       echo "No data for $SET"
+      OK='no'
       continue
       fi
-  echo "==== Load data : $SET"
-
-  
   DB="$JENADB/DB-$d"
   if [ ! -e "$DB" ] ; then
       mkdir -p "$DB"
@@ -31,12 +34,25 @@ do
   if [ -e "$LOC" ]
   then
       echo "** already exists : $LOC"
+      OK='no'
       continue
   fi
+done    
 
+if [ $OK != "yes" ]
+then
+    exit 1
+    fi
+
+# Load
+for d in $DIRS
+do
+  echo "==== Load data : $SET"
+  SET="$DATADIR/data-$d"
+  DB="$JENADB/DB-$d"
+  LOC="$DB/Store"
   rm -rf $LOC
   mkdir -p "$LOC"
-
 
   echo "== Load ($d)"
   if [ -e "$SET/data.nt" ] ; then 

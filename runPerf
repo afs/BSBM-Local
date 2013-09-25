@@ -9,7 +9,7 @@ DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 # TestDriver args
 # -seed 808080
 # Need more runs
-ARGS="-runs 10 -w 10"
+ARGS="-runs 25 -w 25"
 
 # TDB logging.
 ## ????TDB_ARGS="-Dtdb:logExec=true" 
@@ -17,8 +17,8 @@ ARGS="-runs 10 -w 10"
 PROGRAM=benchmark.testdriver.TestDriver
 ## ----
 
-rm -rf Results
-mkdir Results
+## rm -rf Results
+## mkdir Results
 JVM_ARGS="-Xmx1400M -server"
 
 for d in $DIRS

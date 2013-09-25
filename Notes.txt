@@ -11,7 +11,7 @@ SIZES="50k 250k" runPerf     (choose sizes to test)
 # generate results 
 runResults
 Key results file:
-bsbm_query_and_size_tables_of_stores.html
+bsbm_query_and_size_t1ables_of_stores.html
 --> bsbm-query-results.html
 
 Or:
@@ -77,3 +77,21 @@ java -cp bin:lib/* benchmark.tools.ResultTransform ??????
 Data layout:
 
 StoreName/25m.xml etc etc
+
+== Setup
+
+??
+TestDriver reads "-ucf FILE"
+  Default is userses/explore/sparql.txt
+Use case file is lines of 
+  querymix=rel filename
+
+Here, set to:
+-ucf usecase.txt
+==>
+ querymix=DIRECTORY
+ querymix=
+for current directory
+Unreliable
+
+

@@ -6,7 +6,8 @@
 @prefix sdb:    <http://jena.hpl.hp.com/2007/sdb#> .
 @prefix tdb:    <http://jena.hpl.hp.com/2008/tdb#> .
 
-[] ja:loadClass "com.hp.hpl.jena.tdb.TDB" .
+[] ja:loadClass "quack.engine.Quack" .
+##[] ja:loadClass "com.hp.hpl.jena.tdb.TDB" .
 tdb:DatasetTDB  rdfs:subClassOf  ja:RDFDataset .
 tdb:GraphTDB    rdfs:subClassOf  ja:Model .
 
