@@ -300,133 +300,133 @@ public class ResultTransform {
             System.exit(-1);
         }
     }
-}
 
-class FileFilter implements FilenameFilter {
-    public FileFilter() {}
-    @Override
-    public boolean accept(File dir, String name) {
-        return name.endsWith(".xml");
-    }
-}
-
-class IntReference {
-    int value;
-    IntReference(int i) {
-        value = i;
+    static class FileFilter implements FilenameFilter {
+        public FileFilter() {}
+        @Override
+        public boolean accept(File dir, String name) {
+            return name.endsWith(".xml");
+        }
     }
 
-    public int getValue() {
-        return value;
+    static class IntReference {
+        int value;
+        IntReference(int i) {
+            value = i;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int v) {
+            value = v;
+        }
+
+        public void inc() {
+            value++;
+        }
+
+        @Override
+        public String toString() {
+            return (Integer.valueOf(value)).toString();
+        }
     }
 
-    public void setValue(int v) {
-        value = v;
-    }
+    static class ResultHandler extends DefaultHandler {
+        boolean inQueryAttr;
+        boolean inQMAttr;
+        String[] resultArray;
+        int index;
+        int nr = 0 ;
+        String qmValue;
+        String queryAttr = ResultTransform.queryParameter;
+        String qmAttr = ResultTransform.querymixParameter;
 
-    public void inc() {
-        value++;
-    }
+        ResultHandler() {
+        }
 
-    @Override
-    public String toString() {
-        return (Integer.valueOf(value)).toString();
-    }
-}
+        @Override
+        public void startElement( String namespaceURI,
+                                  String localName,   // local name
+                                  String qName,       // qualified name
+                                  Attributes attrs ) {
 
-class ResultHandler extends DefaultHandler {
-    boolean inQueryAttr;
-    boolean inQMAttr;
-    String[] resultArray;
-    int index;
-    int nr = 0 ;
-    String qmValue;
-    String queryAttr = ResultTransform.queryParameter;
-    String qmAttr = ResultTransform.querymixParameter;
-
-    ResultHandler() {
-    }
-
-    @Override
-    public void startElement( String namespaceURI,
-                              String localName,   // local name
-                              String qName,       // qualified name
-                              Attributes attrs ) {
-
-        if ( qName.equals("query") ) {
-            String x = attrs.getValue("nr") ;
-            try {
-                nr=Integer.parseInt(x) ;
-                nr = nr - 1 ;
-            } catch (NumberFormatException ex) {
-                System.err.println("Bad number: "+x) ;
-            }
-        } else
+            if ( qName.equals("query") ) {
+                String x = attrs.getValue("nr") ;
+                try {
+                    nr=Integer.parseInt(x) ;
+                    nr = nr - 1 ;
+                } catch (NumberFormatException ex) {
+                    System.err.println("Bad number: "+x) ;
+                }
+            } else
 
 
-            if(qName.equals("bsbm"))
-                init();
-            else if(qName.equals(queryAttr))
-                inQueryAttr = true;
+                if(qName.equals("bsbm"))
+                    init();
+                else if(qName.equals(queryAttr))
+                    inQueryAttr = true;
+                else if(qName.equals(qmAttr))
+                    inQMAttr = true;
+        }
+
+        @Override
+        public void endElement(String uri, String localName, String qName) {
+            if(qName.equals(queryAttr))
+                inQueryAttr = false;
             else if(qName.equals(qmAttr))
-                inQMAttr = true;
-    }
+                inQMAttr = false;
+        }
 
-    @Override
-    public void endElement(String uri, String localName, String qName) {
-        if(qName.equals(queryAttr))
+        @Override
+        public void characters(char[] ch,
+                               int start,
+                               int length) {
+            if(inQueryAttr) {
+                StringBuilder t = new StringBuilder();
+                for ( int i = start; i < (start + length); i++ )
+                    t.append(ch[i]);
+
+                //resultArray[index] = t.toString();
+                index++ ;
+                resultArray[nr] = t.toString();
+            }
+            else if(inQMAttr) {
+                StringBuilder t = new StringBuilder();
+                for ( int i = start; i < (start + length); i++ )
+                    t.append(ch[i]);
+
+                qmValue = t.toString();
+            }
+        }
+
+        public void setArray(String[] a) {
+            resultArray = a;
+            index = 0;
+        }
+
+        private void init() {
             inQueryAttr = false;
-        else if(qName.equals(qmAttr))
-            inQMAttr = false;
-    }
-
-    @Override
-    public void characters(char[] ch,
-                           int start,
-                           int length) {
-        if(inQueryAttr) {
-            StringBuilder t = new StringBuilder();
-            for ( int i = start; i < (start + length); i++ )
-                t.append(ch[i]);
-
-            //resultArray[index] = t.toString();
-            index++ ;
-            resultArray[nr] = t.toString();
+            index = 0;
         }
-        else if(inQMAttr) {
-            StringBuilder t = new StringBuilder();
-            for ( int i = start; i < (start + length); i++ )
-                t.append(ch[i]);
 
-            qmValue = t.toString();
+        public String getQmValue() {
+            return qmValue;
         }
     }
 
-    public void setArray(String[] a) {
-        resultArray = a;
-        index = 0;
-    }
+    static class StringLengthComparator implements Comparator<String>, Serializable{
+        private static final long serialVersionUID = -5232659752583741930L;
 
-    private void init() {
-        inQueryAttr = false;
-        index = 0;
-    }
-
-    public String getQmValue() {
-        return qmValue;
-    }
-}
-
-class StringLengthComparator implements Comparator<String>, Serializable{
-    private static final long serialVersionUID = -5232659752583741930L;
-
-    @Override
-    public int compare(String s1, String s2) {
-        if(s1.length() == s2.length())
-            return 0;
-        else if(s1.length()>s2.length())
-            return -1;
-        else
-            return 1;
+        @Override
+        public int compare(String s1, String s2) {
+            if(s1.length() == s2.length())
+                return 0;
+            else if(s1.length()>s2.length())
+                return -1;
+            else
+                return 1;
+        }
     }
 }
