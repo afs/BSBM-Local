@@ -9,6 +9,7 @@ TDB-DB-all
 Sesame-DB/*
 lib-sys/*
 Results/*
+Reports/*
 run.log
 dataset.ttl
 td_data

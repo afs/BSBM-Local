@@ -74,9 +74,9 @@ public class ResultTransformAlt {
 
     private static String generateHtml(List<String> storesBySizeList , Set<QueryResult> results) {
         StringBuilder sbuff = new StringBuilder() ;
-        sbuff.append("<h4>Queries per second</h4>") ;
+        sbuff.append("<h4>Queries per second</h4>\n\n") ;
         
-        sbuff.append("<table style=\"text-align: center; width: 60%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">") ;
+        sbuff.append("<table style=\"text-align: center; width: 60%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">\n") ;
         sbuff.append("<tr>\n") ;
         sbuff.append("   <th>&nbsp;</th>\n") ;
         for ( String s : storesBySizeList )

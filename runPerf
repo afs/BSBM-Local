@@ -9,7 +9,7 @@ DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 # TestDriver args
 # -seed 808080
 # Need more runs
-ARGS="-runs 25 -w 25"
+ARGS="-runs 10 -w 5"
 
 # TDB logging.
 ## ????TDB_ARGS="-Dtdb:logExec=true" 
@@ -17,9 +17,21 @@ ARGS="-runs 25 -w 25"
 PROGRAM=benchmark.testdriver.TestDriver
 ## ----
 
+genKey() {
+    local K="$1" 
+    local i=1
+    while [ -e "$K-$i.html" ]
+    do
+	i=$((i+1))
+    done
+    echo "$K-$i.html"
+}
+
 ## rm -rf Results
 ## mkdir Results
 JVM_ARGS="-Xmx1400M -server"
+
+rm -f Results/*.xml
 
 for d in $DIRS
 do
@@ -41,4 +53,5 @@ do
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done
 
-runResults Results/res*xml > Results/results-$(date date '+%Y-%m-%dT%H:%M:%S').html
+F=$(genKey "Reports/results")
+runResults Results/res*xml > $F
