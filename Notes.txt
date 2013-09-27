@@ -1,4 +1,7 @@
 ==== Process
+Offical results:
+
+http://wifo5-03.informatik.uni-mannheim.de/bizer/berlinsparqlbenchmark/results/V7/index.html#detailsExploreCompare
 
 See run-complete for a script to drive all the scripts.
 

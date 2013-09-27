@@ -10,6 +10,7 @@ DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 # -seed 808080
 # Need more runs
 ARGS="-runs 10 -w 5"
+#ARGS="-runs 1 -w 0 -ucf  usecases/businessIntelligence/sparql.txt"
 
 # TDB logging.
 ## ????TDB_ARGS="-Dtdb:logExec=true" 
