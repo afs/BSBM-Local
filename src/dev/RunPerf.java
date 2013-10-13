@@ -22,16 +22,21 @@ import benchmark.testdriver.TestDriver ;
 
 public class RunPerf {
     public static void main(String argv[]) {
-        String set = "1m" ;
+        //String set = "1m" ;
+        String set = "5m" ;
+        //String set = "25m" ;
+        //String abase = "tdb" ;
+        //String abase = "quack" ;
+        String abase = "quack2" ;
         TestDriver.main(
                         //"-runs", "2", "-w", "2",
-                        "-runs", "1", "-w", "0",
-                        "-idir", "Data/data-"+set, "-o", "Results/res-"+set+".xml",
-                        "jena:TDB-DB/DB-"+set+"/assembler.ttl"
+                        "-runs", "150", "-w", "20",
+                        "-idir", "Data/data-"+set, "-o", "res-"+set+".xml",
+                        "jena:TDB-DB/DB-"+set+"/assembler-"+abase+".ttl"
                         //"http://localhost:3030/ds/sparql"
                         ) ;
         
-        benchmark.tools.ResultTransform.main("Results");
+        //benchmark.tools.ResultTransform.main("Results");
     }
 }
 

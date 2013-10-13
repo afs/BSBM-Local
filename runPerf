@@ -9,14 +9,21 @@ DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 # TestDriver args
 # -seed 808080
 # Need more runs
+
+## ARGS="-runs 1 -w 0"
 ARGS="-runs 10 -w 5"
-#ARGS="-runs 1 -w 0 -ucf  usecases/businessIntelligence/sparql.txt"
+## ARGS="-runs 1 -w 0 -ucf  usecases/businessIntelligence/sparql.txt"
 
 # TDB logging.
 ## ????TDB_ARGS="-Dtdb:logExec=true" 
 
 PROGRAM=benchmark.testdriver.TestDriver
 ## ----
+
+ABASE="quack"
+## ABASE="tdb"
+## ABASE="quack2"
+
 
 genKey() {
     local K="$1" 
@@ -49,7 +56,7 @@ do
   java -cp "$CLASSPATH" $JVM_ARGS \
       $PROGRAM \
       $ARGS -idir "$SET" -o "Results/res-$d.xml" \
-      "jena:$DB/assembler.ttl"
+      "jena:$DB/assembler-${ABASE}.ttl"
       #"http://localhost:3030/ds/sparql"
   echo "== Finish: $(date +"%Y-%m-%d %H:%M:%S")"
   done

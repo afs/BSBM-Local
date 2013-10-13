@@ -21,3 +21,5 @@ build
 target
 results-backup-*.zip
 Q.rq
+res-*.xml
+LOG*
