@@ -20,10 +20,11 @@ ARGS="-runs 10 -w 5"
 PROGRAM=benchmark.testdriver.TestDriver
 ## ----
 
-ABASE="quack"
+## ABASE="quack"
 ## ABASE="tdb"
-## ABASE="quack2"
+ABASE="quack2"
 
+echo "Test set: $ABASE"
 
 genKey() {
     local K="$1" 
