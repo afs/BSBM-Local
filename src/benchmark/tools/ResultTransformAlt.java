@@ -35,18 +35,28 @@ public class ResultTransformAlt {
     private final static String[] queries = { "Query 1", "Query 2", "Query 3", "Query 4",
                                               "Query 5", "Unused", "Query 7", "Query 8",
                                               "Query 9", "Query 10", "Query 11", "Query 12"};
+    static List<String> labels = new ArrayList<>() ;
     
     // Store name (from file) ->  query results.
     
-    
-    
-    public static void main(String ... argv) {
+    public static void main(String ... argv$) {
+        //argv = new String[] {"--label=", "Results/res-1m.xml", "Results/res-10m.xml", } ;
+
+        List<String> args = Arrays.asList(argv$) ;
         
-        //argv = new String[] {"Results/res-1m.xml", "Results/res-10m.xml", } ;
+        int N = args.size() ;
+        int i = 0 ;
+        for ( ; i < N ; i++ ) {
+            if ( ! args.get(i).startsWith("--label=") ) 
+                break ;
+            String x = args.get(i).substring("--label=".length()) ;
+            labels.add(x) ;
+        }
+        args = args.subList(i,  N) ;
         
         Set<QueryResult> results = new HashSet<>() ;
         
-        for ( String fn : argv ) {
+        for ( String fn : args ) {
             parse(fn, results) ;
         }
         
@@ -75,6 +85,13 @@ public class ResultTransformAlt {
     private static String generateHtml(List<String> storesBySizeList , Set<QueryResult> results) {
         StringBuilder sbuff = new StringBuilder() ;
         sbuff.append("<h4>Queries per second</h4>\n\n") ;
+        
+        if ( labels.size() > 0 ) {
+            sbuff.append("<blockquote>") ;                
+            for ( String x : labels )
+                sbuff.append("<p>").append(x).append("</p>\n") ;
+            sbuff.append("</blockquote>\n\n") ;                
+        }
         
         sbuff.append("<table style=\"text-align: center; width: 60%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">\n") ;
         sbuff.append("<tr>\n") ;

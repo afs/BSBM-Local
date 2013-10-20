@@ -7,7 +7,7 @@ Data/*
 TDB-DB/*
 TDB-DB-all
 Sesame-DB/*
-lib-sys/*
+lib/*
 Results/*
 Reports/*
 run.log
@@ -23,3 +23,4 @@ results-backup-*.zip
 Q.rq
 res-*.xml
 LOG*
+/jena-tdb.jar

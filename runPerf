@@ -2,6 +2,28 @@
 
 . ./init
 
+usage="$(basename $0) (tdb|quack|quack2) label"
+
+if [ $# != 2 -a $# != 1 ]
+then
+    echo "$usage" 1>&2
+    exit 1
+fi
+
+
+ABASE="$1"
+case "$ABASE" in
+
+    tdb|quack|quack2) ;;
+    *) 
+	
+	echo "$usage" 1>&2
+	echo "  Run type not recognized: $ABASE" 1>&2
+	exit 1	
+esac
+LABEL="${2:-BSBM}"
+
+
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
@@ -11,7 +33,7 @@ DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
 # Need more runs
 
 ## ARGS="-runs 1 -w 0"
-ARGS="-runs 10 -w 5"
+ARGS="-runs 25 -w 10"
 ## ARGS="-runs 1 -w 0 -ucf  usecases/businessIntelligence/sparql.txt"
 
 # TDB logging.
@@ -22,7 +44,7 @@ PROGRAM=benchmark.testdriver.TestDriver
 
 ## ABASE="quack"
 ## ABASE="tdb"
-ABASE="quack2"
+## ABASE="quack2"
 
 echo "Test set: $ABASE"
 
@@ -63,4 +85,11 @@ do
   done
 
 F=$(genKey "Reports/results")
-runResults Results/res*xml > $F
+runResults \
+    --label="$LABEL"                            \
+    --label="$ARGS"                             \
+    --label="Engine: $ABASE"                    \
+    --label="Run: $(date --iso-8601=seconds)"   \
+    Results/res*xml > $F
+
+rm -f Results/res*xml
