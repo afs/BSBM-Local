@@ -27,6 +27,7 @@ LABEL="${2:-BSBM}"
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
+echo "Directories: $DIRS"
 
 # TestDriver args
 # -seed 808080
