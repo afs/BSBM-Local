@@ -32,12 +32,12 @@ public class RunPerf {
         String set = "25m" ;
 
         //String abase = "tdb" ;
-        //String abase = "quack" ;
-        String abase = "quack2" ;
+        String abase = "quack" ;
+        //String abase = "quack2" ;
         
         TestDriver.main(
                         //"-runs", "2", "-w", "2",
-                        "-runs", "50", "-w", "20",
+                        "-runs", "25", "-w", "20",
                         "-idir", "Data/data-"+set, "-o", "res-"+set+".xml",
                         "jena:TDB-DB/DB-"+set+"/assembler-"+abase+".ttl"
                         //"http://localhost:3030/ds/sparql"

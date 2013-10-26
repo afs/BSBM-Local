@@ -93,7 +93,7 @@ public class ResultTransformAlt {
             sbuff.append("</blockquote>\n\n") ;                
         }
         
-        sbuff.append("<table style=\"text-align: center; width: 60%;\" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">\n") ;
+        sbuff.append("<table style=\"text-align: center; \" border=\"1\" cellpadding=\"1\" cellspacing=\"1\">\n") ;
         sbuff.append("<tr>\n") ;
         sbuff.append("   <th>&nbsp;</th>\n") ;
         for ( String s : storesBySizeList )
