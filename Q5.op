@@ -1,0 +1,24 @@
+(base <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>
+  (prefix ((rdfs: <http://www.w3.org/2000/01/rdf-schema#>)
+           (bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>)
+           (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+    (slice _ 5
+      (order (?productLabel)
+        (distinct
+          (project (?product ?productLabel)
+            (filter (exprlist (< ?simProperty2 (+ ?origProperty2 170)) (> ?simProperty2 (- ?origProperty2 170)))
+              (sequence
+                (filter (exprlist (< ?simProperty1 (+ ?origProperty1 120)) (> ?simProperty1 (- ?origProperty1 120)))
+                  (sequence
+                    (filter (!= <dataFromProducer700/Product34463> ?product)
+                      (bgp (triple ?product rdfs:label ?productLabel)))
+                    (bgp
+                      (triple <dataFromProducer700/Product34463> bsbm:productFeature ?prodFeature)
+                      (triple ?product bsbm:productFeature ?prodFeature)
+                      (triple <dataFromProducer700/Product34463> bsbm:productPropertyNumeric1 ?origProperty1)
+                      (triple ?product bsbm:productPropertyNumeric1 ?simProperty1)
+                    )))
+                (bgp
+                  (triple <dataFromProducer700/Product34463> bsbm:productPropertyNumeric2 ?origProperty2)
+                  (triple ?product bsbm:productPropertyNumeric2 ?simProperty2)
+                )))))))))

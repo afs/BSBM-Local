@@ -26,7 +26,6 @@ import com.hp.hpl.jena.sparql.util.Utils ;
 
 public class RunPerf {
     public static void main(String argv[]) {
-        
         //String set = "1m" ;
         //String set = "5m" ;
         String set = "25m" ;
@@ -35,9 +34,12 @@ public class RunPerf {
         String abase = "quack" ;
         //String abase = "quack2" ;
         
+        String WARM = "20" ;
+        String RUN  = "40" ;
+        
         TestDriver.main(
                         //"-runs", "2", "-w", "2",
-                        "-runs", "25", "-w", "20",
+                        "-runs", RUN, "-w", WARM,
                         "-idir", "Data/data-"+set, "-o", "res-"+set+".xml",
                         "jena:TDB-DB/DB-"+set+"/assembler-"+abase+".ttl"
                         //"http://localhost:3030/ds/sparql"
@@ -50,7 +52,6 @@ public class RunPerf {
             "Results/res-"+set+".xml" } ;
         
         System.out.println("runResults "+Arrays.asList(a)) ;
-            
     }
 }
 

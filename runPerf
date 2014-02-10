@@ -65,6 +65,8 @@ JVM_ARGS="-Xmx1400M -server"
 
 rm -f Results/*.xml
 
+echo "Run with $ARGS"
+
 for d in $DIRS
 do
   SET="$DATADIR/data-$d"
