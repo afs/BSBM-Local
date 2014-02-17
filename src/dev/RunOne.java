@@ -22,7 +22,7 @@ import com.hp.hpl.jena.query.* ;
 import com.hp.hpl.jena.sparql.algebra.Algebra ;
 import com.hp.hpl.jena.sparql.algebra.Op ;
 import com.hp.hpl.jena.sparql.algebra.Transformer ;
-import com.hp.hpl.jena.sparql.algebra.optimize.TransformOrderByDistinctAppplication ;
+import com.hp.hpl.jena.sparql.algebra.optimize.TransformOrderByDistinctApplication ;
 import com.hp.hpl.jena.sparql.sse.writers.WriterOp ;
 import com.hp.hpl.jena.tdb.TDBFactory ;
 
@@ -42,7 +42,7 @@ public class RunOne
             // Why not TopN? (slice _ 5 (order (distinct () ))) is safe? Distinct is done by TopN?
             Op op = Algebra.compile(query) ;
             
-            op = Transformer.transform(new TransformOrderByDistinctAppplication(), op) ;
+            op = Transformer.transform(new TransformOrderByDistinctApplication(), op) ;
             
             Op op1 = Algebra.optimize(op) ;
             System.out.println(query) ;

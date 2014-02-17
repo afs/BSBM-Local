@@ -21,7 +21,7 @@ bin
 build
 target
 results-backup-*.zip
-Q.rq
+Q*.rq
 res-*.xml
 LOG*
 /jena-tdb.jar
