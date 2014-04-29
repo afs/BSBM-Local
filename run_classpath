@@ -8,10 +8,15 @@ CP1=target/classes
 
 
 ## JENA
+J="2-SNAPSHOT"
 
-CP_TDB="$REPO/org/apache/jena/jena-tdb/1.0.2-SNAPSHOT/jena-tdb-1.0.2-SNAPSHOT.jar"
-CP_ARQ="$REPO/org/apache/jena/jena-arq/2.11.2-SNAPSHOT/jena-arq-2.11.2-SNAPSHOT.jar"
-CP_CORE="$REPO/org/apache/jena/jena-core/2.11.2-SNAPSHOT/jena-core-2.11.2-SNAPSHOT.jar"
+VER_TDB=1.0.2-SNAPSHOT
+VER_IRI=1.0.2-SNAPSHOT
+VER_JENA=2.11.2-SNAPSHOT
+
+CP_TDB="$REPO/org/apache/jena/jena-tdb/${VER_TDB}/jena-tdb-${VER_TDB}.jar"
+CP_ARQ="$REPO/org/apache/jena/jena-arq/${VER_JENA}/jena-arq-${VER_JENA}.jar"
+CP_CORE="$REPO/org/apache/jena/jena-core/${VER_JENA}/jena-core-${VER_JENA}.jar"
 
 ## CP_TDB="$JENA/jena-tdb/classes"
 ## CP_ARQ="$JENA/jena-arq/classes"
@@ -23,8 +28,8 @@ CP_CORE="$REPO/org/apache/jena/jena-core/2.11.2-SNAPSHOT/jena-core-2.11.2-SNAPSH
 ##     CP_TDB="jena-tdb.jar"
 ##     fi
 
-CP_JENA="$CP_TDB:$CP_ARQ:$CP_CORE:$REPO/org/apache/jena/jena-iri/1.0.1/jena-iri-1.0.1.jar"
-CP_JENA_L1="$REPO/org/apache/httpcomponents/httpclient/4.2.6/httpclient-4.2.6.jar:$REPO/org/apache/httpcomponents/httpcore/4.2.2/httpcore-4.2.2.jar::$REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4.jar:$REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:$REPO/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:$REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar"
+CP_JENA="$CP_TDB:$CP_ARQ:$CP_CORE:$REPO/org/apache/jena/jena-iri/${VER_IRI}/jena-iri-${VER_IRI}.jar"
+CP_JENA_L1="$REPO/org/apache/httpcomponents/httpclient/4.2.6/httpclient-4.2.6.jar:$REPO/org/apache/httpcomponents/httpcore/4.2.2/httpcore-4.2.2.jar:$REPO/org/slf4j/jcl-over-slf4j/1.6.4/jcl-over-slf4j-1.6.4.jar:$REPO/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:$REPO/org/slf4j/slf4j-log4j12/1.6.4/slf4j-log4j12-1.6.4.jar:$REPO/log4j/log4j/1.2.16/log4j-1.2.16.jar"
 
 CP_JENA_L2="$REPO/com/github/jsonld-java/jsonld-java/0.3/jsonld-java-0.3.jar:$REPO/com/fasterxml/jackson/core/jackson-core/2.3.1/jackson-core-2.3.1.jar:$REPO/com/fasterxml/jackson/core/jackson-databind/2.3.1/jackson-databind-2.3.1.jar:$REPO/com/fasterxml/jackson/core/jackson-annotations/2.3.0/jackson-annotations-2.3.0.jar:$REPO/org/apache/httpcomponents/httpclient-cache/4.2.6/httpclient-cache-4.2.6.jar"
 
