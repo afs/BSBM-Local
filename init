@@ -12,4 +12,4 @@ DATADIR=Data
 JENADB=TDB-DB
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
-. ./run_classpath
+CLASSPATH=$(./run_classpath)

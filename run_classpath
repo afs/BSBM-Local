@@ -48,3 +48,4 @@ unset CP_JENA
 unset CP_JENA2
 
 CLASSPATH="$HOME/Projects/quack/target/classes:$CLASSPATH"
+echo $CLASSPATH
