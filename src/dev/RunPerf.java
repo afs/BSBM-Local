@@ -27,8 +27,8 @@ import com.hp.hpl.jena.sparql.util.Utils ;
 public class RunPerf {
     public static void main(String argv[]) {
         //String set = "1m" ;
-        String set = "5m" ;
-        //String set = "25m" ;
+        //String set = "5m" ;
+        String set = "25m" ;
 
         //String abase = "tdb" ;
         //String abase = "quack" ;

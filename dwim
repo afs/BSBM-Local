@@ -1,12 +1,14 @@
 #!/bin/bash
 
-export ARGS="-runs 10 -w 10"
+export ARGS="-runs 20 -w 20"
 
 runPerf tdb 
 runPerf quack
 runPerf quack2
 
-export ARGS="-runs 20 -w 20"
+export ARGS="-runs 50 -w 50"
+
+rm Reports/* 
 
 runPerf tdb 
 runPerf quack
