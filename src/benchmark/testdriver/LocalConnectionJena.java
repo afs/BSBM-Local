@@ -97,6 +97,7 @@ public class LocalConnectionJena implements ServerConnection
         } catch (Throwable th)
         {
             th.printStackTrace(System.err) ;
+            System.exit(0) ;
             //System.err.println("Throwable: "+th.getMessage()) ;
             long timeMilli = timer.readTimer() ;
             System.out.println("Query " + queryNr + ": " + (timeMilli/1000.0) + " seconds timeout!");

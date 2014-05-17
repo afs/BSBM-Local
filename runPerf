@@ -25,7 +25,6 @@ case "$ABASE" in
 esac
 LABEL="${2:-BSBM}"
 
-
 [ -d "$JENADB" ] || { echo "Not a directory: $JENADB" ; exit 1 ; }
 
 DIRS="${SIZES:-50k 250k 1m 5m 25m 100m 200m}"
@@ -90,6 +89,9 @@ do
   done
 
 F=$(genKey "Reports/results")
+
+
+
 runResults \
     --label="$LABEL"                            \
     --label="$ARGS"                             \

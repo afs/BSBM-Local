@@ -1129,5 +1129,7 @@ public class TestDriver {
 			testDriver.run();
 			System.out.println("\n" + testDriver.printResults(true));
 		}
+		// Theer may be threads about.
+		System.exit(0) ;
 	}
 }
