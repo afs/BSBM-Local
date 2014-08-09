@@ -1,12 +1,13 @@
 package benchmark.testdriver;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.ArrayList ;
+import java.util.Calendar ;
+import java.util.GregorianCalendar ;
+import java.util.List ;
 
-import benchmark.generator.DateGenerator;
-import benchmark.generator.ValueGenerator;
-import benchmark.model.ProductType;
+import benchmark.generator.DateGenerator ;
+import benchmark.generator.ValueGenerator ;
+import benchmark.model.ProductType ;
 
 public class ParameterGenerator {
 	public static List<Integer> getRandomProductFeatures(ProductType pt, Integer number) {
@@ -32,7 +33,7 @@ public class ParameterGenerator {
 	 */
 	public static String getConsecutiveMonth(GregorianCalendar date, int monthNr) {
 		GregorianCalendar gClone = (GregorianCalendar)date.clone();
-		gClone.add(GregorianCalendar.DAY_OF_MONTH, 28*monthNr);
+		gClone.add(Calendar.DAY_OF_MONTH, 28*monthNr);
 		return DateGenerator.formatDate(gClone);
 	}
 	
@@ -51,7 +52,7 @@ public class ParameterGenerator {
 	public static GregorianCalendar getRandomDate(GregorianCalendar dateMin, ValueGenerator valueGen, int days) {
 		Integer dayOffset = valueGen.randomInt(0, days);
 		GregorianCalendar gClone = (GregorianCalendar)dateMin.clone();
-		gClone.add(GregorianCalendar.DAY_OF_MONTH, dayOffset);
+		gClone.add(Calendar.DAY_OF_MONTH, dayOffset);
 		return gClone;
 	}
 	
