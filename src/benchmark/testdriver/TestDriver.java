@@ -20,6 +20,8 @@ package benchmark.testdriver;
 import java.io.* ;
 import java.util.* ;
 
+import com.hp.hpl.jena.tdb.TDB ;
+
 import org.apache.jena.atlas.lib.FileOps ;
 import org.apache.log4j.Level ;
 import org.apache.log4j.Logger ;
@@ -1111,6 +1113,8 @@ public class TestDriver {
 	}
 
 	public static void main(String ...argv) {
+        System.out.println("TDB = "+TDB.VERSION) ;
+
 	    if ( FileOps.exists("log4j.properties") )
 	        PropertyConfigurator.configureAndWatch("log4j.properties", 60*1000);
 	    else

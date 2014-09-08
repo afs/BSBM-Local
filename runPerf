@@ -35,7 +35,7 @@ echo "Directories: $DIRS"
 # Need more runs
 
 ## ARGS="-runs 1 -w 0"
-ARGS="${ARGS:--runs 100 -w 100}"
+ARGS="${ARGS:--runs 25 -w 50}"
 ## ARGS="-runs 1 -w 0 -ucf  usecases/businessIntelligence/sparql.txt"
 
 # TDB logging.
