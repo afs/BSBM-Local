@@ -26,7 +26,6 @@ import benchmark.testdriver.TestDriver ;
 import com.hp.hpl.jena.query.ARQ ;
 import com.hp.hpl.jena.sparql.mgt.Explain.InfoLevel ;
 import com.hp.hpl.jena.sparql.util.Utils ;
-import com.hp.hpl.jena.tdb.TDB ;
 
 public class RunPerf {
     public static void main(String argv[]) {
