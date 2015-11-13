@@ -20,7 +20,7 @@ package benchmark.testdriver;
 import java.io.* ;
 import java.util.* ;
 
-import com.hp.hpl.jena.tdb.TDB ;
+import org.apache.jena.tdb.TDB ;
 
 import org.apache.jena.atlas.lib.FileOps ;
 import org.apache.log4j.Level ;
@@ -1122,18 +1122,21 @@ public class TestDriver {
 		TestDriver testDriver = new TestDriver(argv);
 		testDriver.init();
 		System.out.println("\nStarting test...\n");
+		boolean printableResults = false ; 
 		if (testDriver.multithreading) {
 			testDriver.runMT();
-			System.out.println("\n" + testDriver.printResults(true));
+			printableResults = true ;
 		} else if (testDriver.qualification)
 			testDriver.runQualification();
 		else if (testDriver.rampup)
 			testDriver.runRampup();
 		else {
 			testDriver.run();
-			System.out.println("\n" + testDriver.printResults(true));
+			printableResults = true ;
 		}
-		// Theer may be threads about.
-		System.exit(0) ;
+
+		if ( false && printableResults )
+		    System.out.println("\n" + testDriver.printResults(true));
+		
 	}
 }

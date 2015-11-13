@@ -24,3 +24,5 @@ Q*.rq
 res-*.xml
 LOG*
 /jena-tdb.jar
+Data
+TDB-DB

@@ -18,13 +18,13 @@
 
 package dev;
 
-import com.hp.hpl.jena.query.* ;
-import com.hp.hpl.jena.sparql.algebra.Algebra ;
-import com.hp.hpl.jena.sparql.algebra.Op ;
-import com.hp.hpl.jena.sparql.algebra.Transformer ;
-import com.hp.hpl.jena.sparql.algebra.optimize.TransformOrderByDistinctApplication ;
-import com.hp.hpl.jena.sparql.sse.writers.WriterOp ;
-import com.hp.hpl.jena.tdb.TDBFactory ;
+import org.apache.jena.query.* ;
+import org.apache.jena.sparql.algebra.Algebra ;
+import org.apache.jena.sparql.algebra.Op ;
+import org.apache.jena.sparql.algebra.Transformer ;
+import org.apache.jena.sparql.algebra.optimize.TransformOrderByDistinctApplication ;
+import org.apache.jena.sparql.sse.writers.WriterOp ;
+import org.apache.jena.tdb.TDBFactory ;
 
 public class RunOne
 {

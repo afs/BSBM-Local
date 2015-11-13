@@ -20,28 +20,25 @@ package dev;
 
 import java.util.Arrays ;
 
-import org.apache.jena.engine.Quack ;
 import benchmark.testdriver.TestDriver ;
-
-import com.hp.hpl.jena.query.ARQ ;
-import com.hp.hpl.jena.sparql.mgt.Explain.InfoLevel ;
-import com.hp.hpl.jena.sparql.util.Utils ;
+import org.apache.jena.atlas.lib.DateTimeUtils ;
 
 public class RunPerf {
     public static void main(String argv[]) {
         //String set = "1m" ;
         //String set = "5m" ;
-        String set = "5m" ;
+        String set = "25m" ;
+        //String set = "100m" ;
 
-        //String abase = "tdb" ;
+        String abase = "tdb" ;
         //String abase = "quack" ;
-        String abase = "quack2" ;
+        //String abase = "quack2" ;
         
-        String WARM = "1" ;
-        String RUN  = "0" ;
+        String WARM = "10" ;
+        String RUN  = "10" ;
         
-        ARQ.setExecutionLogging(InfoLevel.ALL);
-        Quack.explain(true);
+        //ARQ.setExecutionLogging(InfoLevel.ALL);
+        //Quack.explain(true);
         
         TestDriver.main(
                         //"-runs", "2", "-w", "2",
@@ -54,10 +51,13 @@ public class RunPerf {
         String[] a = { 
             "--label=YourKit",
             "--label=Engine: "+abase,
-            "--label=Run: "+Utils.nowAsString(),
+            "--label=Run: "+DateTimeUtils.nowAsString(),
             "Results/res-"+set+".xml" } ;
         
         System.out.println("runResults "+Arrays.asList(a)) ;
+        
+        // There may be threads about.
+        System.exit(0) ;
     }
 }
 

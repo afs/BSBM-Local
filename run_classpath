@@ -21,7 +21,7 @@ do
     fi
 done
 
-CP_Q="$HOME/Projects/quack/target/classes:$CLASSPATH"
+CP_Q="$HOME/Mantis/dboe-quack/target/classes:$CLASSPATH"
 
 
 ## BSBM dependencies.

@@ -19,16 +19,16 @@ import org.xml.sax.Attributes ;
 import org.xml.sax.helpers.DefaultHandler ;
 import benchmark.qualification.QueryResult ;
 
-import com.hp.hpl.jena.assembler.JA ;
-import com.hp.hpl.jena.query.Dataset ;
-import com.hp.hpl.jena.query.QueryExecution ;
-import com.hp.hpl.jena.query.QueryExecutionFactory ;
-import com.hp.hpl.jena.query.QueryFactory ;
-import com.hp.hpl.jena.query.ResultSetFormatter ;
-import com.hp.hpl.jena.rdf.model.Model ;
-import com.hp.hpl.jena.shared.JenaException ;
-import com.hp.hpl.jena.sparql.core.assembler.AssemblerUtils ;
-import com.hp.hpl.jena.sparql.util.Timer ;
+import org.apache.jena.assembler.JA ;
+import org.apache.jena.atlas.lib.Timer ;
+import org.apache.jena.query.Dataset ;
+import org.apache.jena.query.QueryExecution ;
+import org.apache.jena.query.QueryExecutionFactory ;
+import org.apache.jena.query.QueryFactory ;
+import org.apache.jena.query.ResultSetFormatter ;
+import org.apache.jena.rdf.model.Model ;
+import org.apache.jena.shared.JenaException ;
+import org.apache.jena.sparql.core.assembler.AssemblerUtils ;
 
 public class LocalConnectionJena implements ServerConnection
 {
@@ -145,7 +145,7 @@ public class LocalConnectionJena implements ServerConnection
 
     private static int executeQuery1(String queryString, Dataset dataset)
     {
-        com.hp.hpl.jena.query.Query query = QueryFactory.create(queryString) ;
+        org.apache.jena.query.Query query = QueryFactory.create(queryString) ;
         QueryExecution queryExecution = QueryExecutionFactory.create(query, dataset) ;
         if ( query.isSelectType() )
             return doSelectQuery(query, queryExecution) ;
@@ -161,14 +161,14 @@ public class LocalConnectionJena implements ServerConnection
         return -1 ;
     }
     
-    private static int doSelectQuery(com.hp.hpl.jena.query.Query query, QueryExecution queryExecution)
+    private static int doSelectQuery(org.apache.jena.query.Query query, QueryExecution queryExecution)
     {
         try {
             return ResultSetFormatter.consume(queryExecution.execSelect()) ;
         } finally { queryExecution.close(); }
     }
 
-    private static int doConstructQuery(com.hp.hpl.jena.query.Query query, QueryExecution queryExecution)
+    private static int doConstructQuery(org.apache.jena.query.Query query, QueryExecution queryExecution)
     {
         try {
             Model m = queryExecution.execConstruct() ;
@@ -176,7 +176,7 @@ public class LocalConnectionJena implements ServerConnection
         } finally { queryExecution.close(); }
     }
 
-    private static int doDescribeQuery(com.hp.hpl.jena.query.Query query, QueryExecution queryExecution)
+    private static int doDescribeQuery(org.apache.jena.query.Query query, QueryExecution queryExecution)
     {
         try {
             Model m = queryExecution.execDescribe() ;
