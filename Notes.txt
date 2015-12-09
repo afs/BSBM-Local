@@ -1,3 +1,9 @@
+==== Run
+
+SIZES="50k 250k" runPerf
+
+Tghsi generates the report into Reports/
+
 ==== Process
 Offical results:
 
@@ -18,7 +24,7 @@ bsbm_query_and_size_t1ables_of_stores.html
 --> bsbm-query-results.html
 
 Or:
-Colelction of dated runs under Runs/
+Collection of dated runs under Runs/
   genAllResults
 
 Also:

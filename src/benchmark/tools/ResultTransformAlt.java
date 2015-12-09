@@ -10,7 +10,6 @@ import javax.xml.parsers.SAXParser ;
 import javax.xml.parsers.SAXParserFactory ;
 
 import org.apache.jena.atlas.iterator.Iter ;
-import org.apache.jena.atlas.lib.Lib ;
 import org.xml.sax.Attributes ;
 import org.xml.sax.helpers.DefaultHandler ;
 
@@ -119,7 +118,7 @@ public class ResultTransformAlt {
 
     private static QueryResult getQueryResult(Set<QueryResult> results, String qn, String store) {
         for ( QueryResult qr : results ) {
-            if ( Lib.equal(qr.queryName, qn) && Lib.equal(qr.storeSize, store) )
+            if ( Objects.equals(qr.queryName, qn) && Objects.equals(qr.storeSize, store) )
                 return qr ;
         }
         return null ;

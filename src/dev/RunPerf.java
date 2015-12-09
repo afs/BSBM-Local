@@ -34,8 +34,8 @@ public class RunPerf {
         //String abase = "quack" ;
         //String abase = "quack2" ;
         
-        String WARM = "10" ;
-        String RUN  = "10" ;
+        String WARM = "1" ;
+        String RUN  = "1" ;
         
         //ARQ.setExecutionLogging(InfoLevel.ALL);
         //Quack.explain(true);
