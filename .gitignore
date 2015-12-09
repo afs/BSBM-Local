@@ -1,6 +1,9 @@
 \#*
 .\#*
 DB
+.project
+.classpath
+.settings
 classes
 Runs/
 Data/*
