@@ -9,7 +9,6 @@ import java.util.regex.Pattern ;
 import javax.xml.parsers.SAXParser ;
 import javax.xml.parsers.SAXParserFactory ;
 
-import org.apache.jena.atlas.iterator.Iter ;
 import org.xml.sax.Attributes ;
 import org.xml.sax.helpers.DefaultHandler ;
 
@@ -76,7 +75,7 @@ public class ResultTransformAlt {
         Set<String> x = new HashSet<>() ;
         for ( QueryResult qr : results )
             x.add(qr.storeSize) ;
-        List<String> storesBySizeList = Iter.toList(x.iterator()) ;
+        List<String> storesBySizeList = new ArrayList<>(x) ;
         Collections.sort(storesBySizeList, new StringLengthComparator());
         return storesBySizeList ;
     }
