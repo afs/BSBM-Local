@@ -54,7 +54,7 @@ public class TextGenerator {
 	}
 	
 	//Generates a Vector of words
-	@SuppressWarnings("fallthrough")
+	//@SuppressWarnings("fallthrough")
     private void createWordList() {
 		words = new Vector<String>();
 

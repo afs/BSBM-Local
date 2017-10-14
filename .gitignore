@@ -11,6 +11,7 @@ TDB-DB/*
 TDB-DB-all
 Sesame-DB/*
 lib/*
+run-details.json
 Results/*
 Reports/*
 run.log

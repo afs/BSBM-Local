@@ -1,5 +1,7 @@
 package benchmark.testdriver;
 
+import static benchmark.testdriver.ParameterType.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -7,7 +9,7 @@ public class Query {
 	private int nr;
 	private Object[] parameters;
 	private Integer[] parameterFills;
-	private Byte[] parameterTypes;
+	private ParameterType[] parameterTypes;
 	// Some parameters define additional information that will be stored here
 	private Object[] additionalParameterInfo;
 	private Vector<String> queryStrings;
@@ -15,26 +17,40 @@ public class Query {
 	private QueryMix queryMix;
 	private String parameterChar;
 	private String[] rowNames;// which rows to look at for validation
-	private static Map<String, Byte> parameterMapping;
+	
+	private static Map<String, ParameterType> parameterMapping;
 
+	// INFO
+    private Integer queryTemplateNumber;
+    private String queryTemplate;
+	private List<Param> queryTemplateParams = new ArrayList<>();
+
+    public QueryDetails details() { 
+	    return new QueryDetails(queryTemplateNumber, queryTemplate, queryTemplateParams);
+	}
+	// INFO.
+	
 	// Parameter constants
-	public static final byte PRODUCT_PROPERTY_NUMERIC = 1;
-	public static final byte PRODUCT_FEATURE_URI = 2;
-	public static final byte PRODUCT_TYPE_URI = 3;
-	public static final byte CURRENT_DATE = 4;
-	public static final byte WORD_FROM_DICTIONARY1 = 5;
-	public static final byte PRODUCT_URI = 6;
-	public static final byte REVIEW_URI = 7;
-	public static final byte COUNTRY_URI = 8;
-	public static final byte OFFER_URI = 9;
-	public static final byte CONSECUTIVE_MONTH = 10;
-	public static final byte UPDATE_TRANSACTION_DATA = 11;
-	public static final byte PRODUCER_URI = 12;
-	public static final byte PRODUCT_TYPE_RANGE = 13;
+    
+    
+    
+//	public static final byte PRODUCT_PROPERTY_NUMERIC = 1;
+//	public static final byte PRODUCT_FEATURE_URI = 2;
+//	public static final byte PRODUCT_TYPE_URI = 3;
+//	public static final byte CURRENT_DATE = 4;
+//	public static final byte WORD_FROM_DICTIONARY1 = 5;
+//	public static final byte PRODUCT_URI = 6;
+//	public static final byte REVIEW_URI = 7;
+//	public static final byte COUNTRY_URI = 8;
+//	public static final byte OFFER_URI = 9;
+//	public static final byte CONSECUTIVE_MONTH = 10;
+//	public static final byte UPDATE_TRANSACTION_DATA = 11;
+//	public static final byte PRODUCER_URI = 12;
+//	public static final byte PRODUCT_TYPE_RANGE = 13;
 
 	// Initialize Parameter mappings
 	static {
-		parameterMapping = new HashMap<String, Byte>();
+		parameterMapping = new HashMap<>();
 		parameterMapping.put("ProductPropertyNumericValue",	PRODUCT_PROPERTY_NUMERIC);
 		parameterMapping.put("ProductFeatureURI", PRODUCT_FEATURE_URI);
 		parameterMapping.put("ProductTypeURI", PRODUCT_TYPE_URI);
@@ -56,13 +72,14 @@ public class Query {
 	public static final byte CONSTRUCT_TYPE = 3;
 	public static final byte UPDATE_TYPE = 4;
 
-	public Query(String queryString, String parameterDescription, String c) {
-		parameterChar = c;
-		init(queryString, parameterDescription);
-	}
+//	public Query(int x, String queryString, String parameterDescription, String c) {
+//		parameterChar = c;
+//		init(queryString, parameterDescription);
+//	}
 
-	public Query(File queryFile, File parameterDescriptionFile, String c) {
+	public Query(File queryFile, Integer queryTemplateNumber, File parameterDescriptionFile, String c) {
 		parameterChar = c;
+		this.queryTemplateNumber = queryTemplateNumber ;
 		String queryString = "";
 		String parameterDescriptionString = "";
 
@@ -121,6 +138,7 @@ public class Query {
 	 * Initialize the Query
 	 */
 	private void init(String queryString, String parameterDescription) {
+	    queryTemplate = queryString;
 		queryStrings = processQueryString(queryString);
 		queryType = SELECT_TYPE;// default: Select query
 
@@ -141,8 +159,8 @@ public class Query {
 	private void processParameters(String queryString,
 			String parameterDescription) {
 		// parameterType Array
-		Vector<Byte> parameterT = new Vector<Byte>();
-		Vector<Object> additionalP = new Vector<Object>();
+		Vector<ParameterType> parameterT = new Vector<>();
+		Vector<Object> additionalP = new Vector<>();
 		// StringTokenizer for the parameter description String
 		StringTokenizer paramTokenizer = new StringTokenizer(
 				parameterDescription);
@@ -164,12 +182,18 @@ public class Query {
 
 			offset++;
 			// Parameter Type
-			String paramType = line.substring(offset);
+			String paramTypeStr = line.substring(offset);
+			
+			// INFO
+			if ( ! parameter.equalsIgnoreCase("querytype") ) {
+			    Param param = new Param(parameter, paramTypeStr, null);
+			    this.queryTemplateParams.add(param);
+			}
 
 			// If special parameter querytype is given save query type for later
 			// use
 			if (parameter.toLowerCase().equals("querytype")) {
-				byte qType = getQueryType(paramType);
+				byte qType = getQueryType(paramTypeStr);
 				if (qType == 0) {
 					System.err.println("Invalid query type chosen."
 							+ " Using default: Select");
@@ -178,27 +202,27 @@ public class Query {
 			}// else get Parameter
 			else {
 				String addPI = null;
-				if(paramType.contains("_")) {
-					String[] paramSplit = paramType.split("_", 2);
-					paramType = paramSplit[0];
+				if(paramTypeStr.contains("_")) {
+					String[] paramSplit = paramTypeStr.split("_", 2);
+					paramTypeStr = paramSplit[0];
 					addPI = paramSplit[1];
 				}
-				Byte byteType = getParamType(paramType);
+				ParameterType paramType = parameterMapping.get(paramTypeStr);
+                if (paramType == null) {
+                    System.err.println("Unknown Type: " + paramTypeStr);
+                    System.exit(-1);
+                }
 				Object additionParameterInfo = null;
 				if(addPI != null)
-					additionParameterInfo = getAdditionParameterInfo(byteType, addPI);
+					additionParameterInfo = getAdditionParameterInfo(paramType, addPI);
 
-				if (byteType == 0) {
-					System.err.println("Unknown Type: " + paramType);
-					System.exit(-1);
-				}
 				mapping.put(parameter, index++);
 				additionalP.add(additionParameterInfo);
-				parameterT.add(byteType);
+				parameterT.add(paramType);
 			}
 		}
 
-		parameterTypes = new Byte[parameterT.size()];
+		parameterTypes = new ParameterType[parameterT.size()];
 		additionalParameterInfo = new Object[parameterT.size()];
 		for (int i = 0; i < parameterT.size(); i++) {
 			parameterTypes[i] = parameterT.elementAt(i);
@@ -217,7 +241,7 @@ public class Query {
 			index2 = queryString.indexOf(parameterChar, index1 + 1);
 
 			String parameter = queryString.substring(index1 + 1, index2);
-
+			
 			paramFills.add(mapping.get(parameter));
 		}
 
@@ -229,16 +253,16 @@ public class Query {
 	/*
 	 * For some parameter types additional information can be defined
 	 */
-	private Object getAdditionParameterInfo(byte type, String additionalInfo) {
+	private Object getAdditionParameterInfo(ParameterType type, String additionalInfo) {
 		Object returnValue = additionalInfo;
-		if(type==Query.CONSECUTIVE_MONTH) {
+		if(type==CONSECUTIVE_MONTH) {
 			try {
 				returnValue = Integer.parseInt(additionalInfo);
 			} catch(NumberFormatException e) {
 				System.err.println("Illegal parameter for ConsecutiveMonth: " + additionalInfo);
 				System.exit(-1);
 			}
-		} else if(type==Query.PRODUCT_TYPE_RANGE) {
+		} else if(type==PRODUCT_TYPE_RANGE) {
 			try {
 				Integer[] params = new Integer[3];
 				String[] splitString = additionalInfo.split("_");
@@ -261,17 +285,6 @@ public class Query {
 			}
 		}
 		return returnValue;
-	}
-
-	/*
-	 * get the byte type representation of this parameter string
-	 */
-	private byte getParamType(String stringType) {
-		Byte param = parameterMapping.get(stringType);
-		if (param != null)
-			return param;
-		else
-			return 0;
 	}
 
 	/*
@@ -321,8 +334,13 @@ public class Query {
 	}
 
 	public void setParameters(Object[] param) {
-		if (parameters.length == param.length)
+		if (parameters.length == param.length) {
 			parameters = param;
+			// INFO
+			for ( int i = 0 ; i < param.length ; i++ ) {
+			    queryTemplateParams.get(i).value = param[i].toString();
+			}
+		}
 		else {
 			System.err.println("Invalid parameter count.");
 			System.exit(-1);
@@ -344,12 +362,16 @@ public class Query {
 		return s.toString();
 	}
 
-	public Byte[] getParameterTypes() {
+	public ParameterType[] getParameterTypes() {
 		return parameterTypes;
 	}
 
 	public Object getAdditionalParameterInfo(int indexOfParameter) {
 		return additionalParameterInfo[indexOfParameter];
+	}
+	
+	public String getQueryGroup() {
+	    return queryTemplateNumber.toString();
 	}
 
 	public int getNr() {

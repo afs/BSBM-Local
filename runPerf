@@ -81,6 +81,7 @@ do
   echo "==== Performance run for $d"
   echo "== Start: $(date +"%Y-%m-%d %H:%M:%S")"
   java -cp "$CLASSPATH" $JVM_ARGS \
+       -Dlog4j.configuration=file:log4j.properties \
       $PROGRAM \
       $ARGS -idir "$SET" -o "Results/res-$d.xml" \
       "jena:$DB/assembler-${ABASE}.ttl"

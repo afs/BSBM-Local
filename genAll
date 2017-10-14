@@ -10,7 +10,11 @@
 ## 25M:    -fc -pc 70812
 ## 100M:   -fc -pc 284826
 ## 200M:   -fc -pc 570000
-## 350M:   -fc -pc 855000
+
+## Guesses.
+## 300M:   -fc -pc 856000
+## 400M:   -fc -pc 1141300
+## 500M:   -fc -pc 1427000
 
 function generate
 {
@@ -30,10 +34,11 @@ function generate
 
     echo "==== Generate data for $size"
 
-    java -cp "$CLASSPATH" -Xmx1024M -server benchmark.generator.Generator \
+    java -cp "$CLASSPATH" -server benchmark.generator.Generator \
 	-fc -pc $pc -dir $DIR -fn "$DIR/data"
-    echo "---- gzip: $size"
-    gzip "$DIR/data.nt"
+##     echo "---- gzip: $size"
+##     gzip "$DIR/data.nt"
+    echo "--- Done: $size"
 }
 
 # rm -rf $DATADIR/data*
@@ -45,4 +50,7 @@ function generate
 ## generate 25m   70812
 ## generate 100m  284826
 ## generate 200m  570000
-## generate 350m  10000000
+## generate 300m  856000
+## generate 350m  1000000
+## generate 400m  1141300
+## generate 500m  1427000

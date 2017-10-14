@@ -2,7 +2,7 @@
 
 SIZES="50k 250k" runPerf
 
-Tghsi generates the report into Reports/
+This generates the report into Reports/
 
 ==== Process
 Offical results:

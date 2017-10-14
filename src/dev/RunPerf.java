@@ -27,20 +27,21 @@ public class RunPerf {
     public static void main(String argv[]) {
         //String set = "1m" ;
         //String set = "5m" ;
-        String set = "25m" ;
+        String set = "5m" ;
         //String set = "100m" ;
 
         String abase = "tdb" ;
         //String abase = "quack" ;
         //String abase = "quack2" ;
         
-        String WARM = "1" ;
-        String RUN  = "1" ;
+        String WARM = "10" ;
+        String RUN  = "50" ;
         
         //ARQ.setExecutionLogging(InfoLevel.ALL);
         //Quack.explain(true);
         
         TestDriver.main(
+                        "-gen",
                         //"-runs", "2", "-w", "2",
                         "-runs", RUN, "-w", WARM,
                         "-idir", "Data/data-"+set, "-o", "res-"+set+".xml",

@@ -7,6 +7,7 @@ import java.util.List;
 
 import benchmark.generator.DateGenerator;
 import benchmark.model.ProductType;
+import static benchmark.testdriver.ParameterType.*;
 
 public class SQLParameterPool extends AbstractParameterPool {
 	
@@ -20,31 +21,31 @@ public class SQLParameterPool extends AbstractParameterPool {
 	 */
 	@Override
     public Object[] getParametersForQuery(Query query) {
-		Byte[] parameterTypes = query.getParameterTypes();
+		ParameterType[] parameterTypes = query.getParameterTypes();
 		Object[] parameters = new Object[parameterTypes.length];
 		ArrayList<Integer> productFeatureIndices = new ArrayList<Integer>();
 		ProductType pt = null;
 		
 		for(int i=0;i<parameterTypes.length;i++) {
-			if(parameterTypes[i]==Query.PRODUCT_TYPE_URI) {
+			if(parameterTypes[i]==PRODUCT_TYPE_URI) {
 				pt = getRandomProductType();
 				parameters[i] = pt.getNr();
 			}
-			else if(parameterTypes[i]==Query.PRODUCT_FEATURE_URI)
+			else if(parameterTypes[i]==PRODUCT_FEATURE_URI)
 				productFeatureIndices.add(i);
-			else if(parameterTypes[i]==Query.PRODUCT_PROPERTY_NUMERIC)
+			else if(parameterTypes[i]==PRODUCT_PROPERTY_NUMERIC)
 				parameters[i] = getProductPropertyNumeric();
-			else if(parameterTypes[i]==Query.PRODUCT_URI)
+			else if(parameterTypes[i]==PRODUCT_URI)
 				parameters[i] = getRandomProductURI();
-			else if(parameterTypes[i]==Query.CURRENT_DATE)
+			else if(parameterTypes[i]==CURRENT_DATE)
 				parameters[i] = currentDateString;
-			else if(parameterTypes[i]==Query.COUNTRY_URI)
+			else if(parameterTypes[i]==COUNTRY_URI)
 				parameters[i] = countryGen.getRandom();
-			else if(parameterTypes[i]==Query.REVIEW_URI)
+			else if(parameterTypes[i]==REVIEW_URI)
 				parameters[i] = getRandomReviewURI();
-			else if(parameterTypes[i]==Query.WORD_FROM_DICTIONARY1)
+			else if(parameterTypes[i]==WORD_FROM_DICTIONARY1)
 				parameters[i] = getRandomWord();
-			else if(parameterTypes[i]==Query.OFFER_URI)
+			else if(parameterTypes[i]==OFFER_URI)
 				parameters[i] = getRandomOfferURI();
 			else
 				parameters[i] = null;

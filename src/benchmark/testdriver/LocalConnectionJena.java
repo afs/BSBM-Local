@@ -87,12 +87,16 @@ public class LocalConnectionJena implements ServerConnection
         int resultCount = 0;
         Timer timer = new Timer() ;
         timer.startTimer() ;
+        
         try {
-            if ( logger.isInfoEnabled() ) {
-                queryString = queryString.replaceFirst("\n+$", "") ;
-                queryString = queryString.replaceAll("\n", "\n    ") ;
-                logger.info("\n    "+queryString);
-            }
+            
+//            if ( logger.isInfoEnabled() ) {
+//                queryString = queryString.replaceFirst("\n+$", "") ;
+//                queryString = queryString.replaceAll("\n", "\n    ") ;
+//                logger.info("\n    "+queryString);
+//            }
+            
+            
             resultCount = executeQuery1(queryString, dataset) ;
         } catch (Throwable th)
         {

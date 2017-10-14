@@ -5,7 +5,7 @@
 # Load and run performance suite
 
 export SIZES
-SIZES="50k 250k 1m 5m 25m 100m 200m"
+export SIZES="5m"
 #SIZES="50k"
 RESULTS="Runs"
 

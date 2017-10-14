@@ -8,6 +8,7 @@ import benchmark.model.*;
 import benchmark.vocabulary.*;
 
 import benchmark.vocabulary.XSD;
+import static benchmark.testdriver.ParameterType.*;
 
 public class LocalSPARQLParameterPool extends AbstractParameterPool {
 	private BufferedReader updateFileReader = null;
@@ -30,43 +31,43 @@ public class LocalSPARQLParameterPool extends AbstractParameterPool {
 	
 	@Override
 	public Object[] getParametersForQuery(Query query) {
-		Byte[] parameterTypes = query.getParameterTypes();
+	    ParameterType[] parameterTypes = query.getParameterTypes();
 		Object[] parameters = new Object[parameterTypes.length];
 		ArrayList<Integer> productFeatureIndices = new ArrayList<Integer>();
 		ProductType pt = null;
 		GregorianCalendar randomDate = null;
 		
 		for(int i=0;i<parameterTypes.length;i++) {
-			if(parameterTypes[i]==Query.PRODUCT_TYPE_URI) {
+			if(parameterTypes[i]==PRODUCT_TYPE_URI) {
 				pt = ParameterGenerator.getRandomProductType(productTypeLeaves, valueGen);
 				parameters[i] = pt.toString();
 			}
-			else if(parameterTypes[i]==Query.PRODUCT_FEATURE_URI)
+			else if(parameterTypes[i]==PRODUCT_FEATURE_URI)
 				productFeatureIndices.add(i);
-			else if(parameterTypes[i]==Query.PRODUCT_PROPERTY_NUMERIC)
+			else if(parameterTypes[i]==PRODUCT_PROPERTY_NUMERIC)
 				parameters[i] = getProductPropertyNumeric();
-			else if(parameterTypes[i]==Query.PRODUCT_URI)
+			else if(parameterTypes[i]==PRODUCT_URI)
 				parameters[i] = getRandomProductURI();
-			else if(parameterTypes[i]==Query.CURRENT_DATE)
+			else if(parameterTypes[i]==CURRENT_DATE)
 				parameters[i] = currentDateString;
-			else if(parameterTypes[i]==Query.COUNTRY_URI)
+			else if(parameterTypes[i]==COUNTRY_URI)
 				parameters[i] = "<" + ISO3166.find((String)countryGen.getRandom()) + ">";
-			else if(parameterTypes[i]==Query.REVIEW_URI)
+			else if(parameterTypes[i]==REVIEW_URI)
 				parameters[i] = getRandomReviewURI();
-			else if(parameterTypes[i]==Query.WORD_FROM_DICTIONARY1)
+			else if(parameterTypes[i]==WORD_FROM_DICTIONARY1)
 				parameters[i] = getRandomWord();
-			else if(parameterTypes[i]==Query.OFFER_URI)
+			else if(parameterTypes[i]==OFFER_URI)
 				parameters[i] = getRandomOfferURI();
-			else if(parameterTypes[i]==Query.UPDATE_TRANSACTION_DATA)
+			else if(parameterTypes[i]==UPDATE_TRANSACTION_DATA)
 				parameters[i] = getUpdateTransactionData();
-			else if(parameterTypes[i]==Query.CONSECUTIVE_MONTH) {
+			else if(parameterTypes[i]==CONSECUTIVE_MONTH) {
 				if(randomDate==null)
 					randomDate = ParameterGenerator.getRandomDate(publishDateMin, valueGen, 309);
 				int monthNr = (Integer)query.getAdditionalParameterInfo(i);
 				parameters[i] = ParameterGenerator.getConsecutiveMonth(randomDate, monthNr);
-			} else if(parameterTypes[i]==Query.PRODUCER_URI)
+			} else if(parameterTypes[i]==PRODUCER_URI)
 				parameters[i] = getRandomProducerURI();
-			else if(parameterTypes[i]==Query.PRODUCT_TYPE_RANGE) {
+			else if(parameterTypes[i]==PRODUCT_TYPE_RANGE) {
 				Integer[] rangeModifiers = (Integer[])query.getAdditionalParameterInfo(i);
 				int ptnr = ParameterGenerator.getRandomProductTypeNrFromRange(maxProductTypePerLevel, rangeModifiers, valueGen, valueGen2);
 				parameters[i] = ProductType.getURIRef(ptnr);

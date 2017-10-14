@@ -1,0 +1,18 @@
+{ 
+  generated : string
+  warmups: integer -- optional
+  runs: integer    -- optional
+  data_name: string
+  data : array { 
+        query : string
+	query_number:  integer
+	run_loop:      integer // negative -> warmup, positive, run; not zero.
+	query_in_loop: integer
+        group : string
+        template : string
+        params : array {
+              name : string
+              value : string
+	}
+  }
+ 

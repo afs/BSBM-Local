@@ -29,7 +29,7 @@ import org.apache.jena.tdb.TDBFactory ;
 public class RunOne
 {
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         // Query 5  7.2 [139.66ms]
 //        LogCtl.enable(ARQ.getExecLogger());
 //        ARQ.setExecutionLogging(InfoLevel.ALL);
