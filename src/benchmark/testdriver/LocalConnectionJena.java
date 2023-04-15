@@ -10,35 +10,30 @@ import java.io.IOException ;
 import java.io.InputStream ;
 import java.net.SocketTimeoutException ;
 
-import javax.xml.parsers.SAXParser ;
-import javax.xml.parsers.SAXParserFactory ;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.log4j.Level ;
-import org.apache.log4j.Logger ;
-import org.xml.sax.Attributes ;
-import org.xml.sax.helpers.DefaultHandler ;
 import benchmark.qualification.QueryResult ;
-
 import org.apache.jena.assembler.JA ;
 import org.apache.jena.atlas.lib.Timer ;
-import org.apache.jena.query.Dataset ;
-import org.apache.jena.query.QueryExecution ;
-import org.apache.jena.query.QueryExecutionFactory ;
-import org.apache.jena.query.QueryFactory ;
-import org.apache.jena.query.ResultSetFormatter ;
+import org.apache.jena.query.*;
 import org.apache.jena.rdf.model.Model ;
 import org.apache.jena.shared.JenaException ;
 import org.apache.jena.sparql.core.assembler.AssemblerUtils ;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.Attributes ;
+import org.xml.sax.helpers.DefaultHandler ;
 
 public class LocalConnectionJena implements ServerConnection
 {
     private String queryService;
     private String updateService;
     private String defaultGraph;
-    private static Logger logger = Logger.getLogger( LocalConnectionJena.class );
+    private static Logger logger = LoggerFactory.getLogger( LocalConnectionJena.class );
     private int timeout;
     private Dataset dataset ;
-    
+
     public LocalConnectionJena(String queryService, String updateService, String defaultGraph, int timeout)
     {
         this.queryService = queryService ;
@@ -46,11 +41,11 @@ public class LocalConnectionJena implements ServerConnection
         String location = queryService.substring("jena:".length()) ;
         this.defaultGraph = defaultGraph ;
         this.timeout = timeout ;
-        
+
         String assemblerFile = location ;
         System.out.println("Assemble dataset ...") ;
-        this.dataset = 
-            (Dataset)AssemblerUtils.build(assemblerFile, JA.getURI()+"RDFDataset")  ; 
+        this.dataset =
+            (Dataset)AssemblerUtils.build(assemblerFile, JA.getURI()+"RDFDataset")  ;
         System.out.println("Assemble dataset ... finished") ;
         if ( dataset == null )
         {
@@ -59,7 +54,7 @@ public class LocalConnectionJena implements ServerConnection
         }
         //this.dataset = TDBFactory.createDataset(location) ;
     }
-    
+
     @Override
     public void close()
     {}
@@ -87,16 +82,16 @@ public class LocalConnectionJena implements ServerConnection
         int resultCount = 0;
         Timer timer = new Timer() ;
         timer.startTimer() ;
-        
+
         try {
-            
+
 //            if ( logger.isInfoEnabled() ) {
 //                queryString = queryString.replaceFirst("\n+$", "") ;
 //                queryString = queryString.replaceAll("\n", "\n    ") ;
 //                logger.info("\n    "+queryString);
 //            }
-            
-            
+
+
             resultCount = executeQuery1(queryString, dataset) ;
         } catch (Throwable th)
         {
@@ -110,7 +105,7 @@ public class LocalConnectionJena implements ServerConnection
 
         }
         long timeMilli = timer.endTimer() ;
-        
+
 //        InputStream is = qe.exec();
 //        if(is==null) {
 //            double t = this.timeout/1000.0;
@@ -135,14 +130,14 @@ public class LocalConnectionJena implements ServerConnection
 //            qe.close();
 //            return;
 //        }
-        
+
         timeInSeconds = timeMilli/1000.0 ; // qe.getExecutionTimeInSeconds();
 
-        if(logger.isEnabledFor( Level.ALL ) && queryMixRun > 0)
+        if( queryMixRun > 0)
             logResultInfo(queryNr, queryMixRun, timeInSeconds,
                        queryString, queryType,
                        resultCount);
-        
+
         queryMix.setCurrent(resultCount, timeInSeconds);
         //qe.close();
     }
@@ -164,7 +159,7 @@ public class LocalConnectionJena implements ServerConnection
         queryExecution.close() ;
         return -1 ;
     }
-    
+
     private static int doSelectQuery(org.apache.jena.query.Query query, QueryExecution queryExecution)
     {
         try {
@@ -194,16 +189,16 @@ public class LocalConnectionJena implements ServerConnection
         return null ;
     }
 
-    
+
     // ----- Copied/hacked from SPARQLConnection
-    
+
     private class ResultHandler extends DefaultHandler {
         private int count;
-        
+
         ResultHandler() {
             count = 0;
         }
-        
+
         @Override
         public void startElement( String namespaceURI,
                 String localName,   // local name
@@ -217,8 +212,8 @@ public class LocalConnectionJena implements ServerConnection
             return count;
         }
     }
-    
-    
+
+
     private int countBytes(InputStream is) {
         int nrBytes=0;
         byte[] buf = new byte[10000];
@@ -242,13 +237,15 @@ public class LocalConnectionJena implements ServerConnection
     private void logResultInfo(int queryNr, int queryMixRun, double timeInSeconds,
                                String queryString, byte queryType,
                                int resultCount) {
+        if ( ! logger.isInfoEnabled() )
+            return;
         StringBuffer sb = new StringBuffer(1000);
         sb.append("\n\n\tQuery " + queryNr + " of run " + queryMixRun + " has been executed ");
         sb.append("in " + String.format("%.6f",timeInSeconds) + " seconds.\n" );
         sb.append("\n\tQuery string:\n\n");
         sb.append(queryString);
         sb.append("\n\n");
-    
+
         //Log results
         if(queryType==Query.DESCRIBE_TYPE)
             sb.append("\tQuery(Describe) result (" + resultCount + " Bytes): \n\n");
@@ -256,12 +253,12 @@ public class LocalConnectionJena implements ServerConnection
             sb.append("\tQuery(Construct) result (" + resultCount + " Bytes): \n\n");
         else
             sb.append("\tQuery results (" + resultCount + " results): \n\n");
-        
+
 
         sb.append("\n__________________________________________________________________________________\n");
-        logger.log(Level.ALL, sb.toString());
+        logger.info(sb.toString());
     }
-    
+
     private int countResults(InputStream s) throws SocketTimeoutException {
         ResultHandler handler = new ResultHandler();
         int count=0;
